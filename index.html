@@ -7,1280 +7,7 @@
   <title>Телефон за Баба</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
-      box-sizing: border-box;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body {
-      background: linear-gradient(160deg, #1c1c1e 0%, #2c2c2e 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    /* iPhone 17 Pro Max */
-    .phone-frame {
-      width: 430px;
-      max-width: 100%;
-      height: 95vh;
-      max-height: 890px;
-      background: #000000;
-      border-radius: 58px;
-      padding: 14px;
-      box-shadow:
-        0 0 0 2px #d1d1d6,
-        0 0 0 3px #a1a1a6,
-        0 20px 40px rgba(0, 0, 0, 0.4),
-        0 60px 120px rgba(0, 0, 0, 0.75);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Side buttons */
-    .phone-frame::before {
-      content: '';
-      position: absolute;
-      left: -5px;
-      top: 120px;
-      width: 3px;
-      height: 36px;
-      background: #a1a1a6;
-      border-radius: 3px 0 0 3px;
-      box-shadow: 0 50px 0 #a1a1a6, 0 90px 0 #a1a1a6;
-    }
-
-    .phone-frame::after {
-      content: '';
-      position: absolute;
-      right: -5px;
-      top: 160px;
-      width: 3px;
-      height: 70px;
-      background: #a1a1a6;
-      border-radius: 0 3px 3px 0;
-    }
-
-    .phone-screen {
-      background: #f2f2f7;
-      border-radius: 44px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Dynamic Island notch */
-    .phone-notch {
-      width: 125px;
-      height: 35px;
-      background: #000;
-      border-radius: 20px;
-      position: absolute;
-      top: 11px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 12px;
-    }
-
-    .notch-cam {
-      width: 12px;
-      height: 12px;
-      background: #111;
-      border-radius: 50%;
-      border: 1px solid #222;
-    }
-
-    /* iOS Status Bar */
-    .status-bar {
-      background: transparent;
-      padding: 16px 28px 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #000;
-      /* Black to remain visible on the light background, matches shape perfectly */
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .clock-display {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-    }
-
-    .location-icon {
-      margin-top: 1px;
-    }
-
-    .status-right {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .signal-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 11px;
-      margin-bottom: 2px;
-    }
-
-    .signal-bars span {
-      background: currentColor;
-      border-radius: 1px;
-      width: 3px;
-    }
-
-    .network-type {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 1px;
-      letter-spacing: -0.2px;
-    }
-
-    .battery-icon {
-      display: flex;
-      align-items: center;
-      position: relative;
-      margin-left: 1px;
-    }
-
-    .battery-body {
-      width: 23px;
-      height: 12px;
-      border: 1px solid currentColor;
-      border-radius: 4px;
-      padding: 1px;
-      position: relative;
-      opacity: 0.8;
-    }
-
-    .battery-body::after {
-      content: '';
-      position: absolute;
-      right: -4px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 4px;
-      background: currentColor;
-      border-radius: 0 2px 2px 0;
-      opacity: 0.8;
-    }
-
-    .battery-fill {
-      height: 100%;
-      width: 75%;
-      background: currentColor;
-      border-radius: 2px;
-    }
-
-    /* iOS Assistive Access Home Screen */
-    .home-screen {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 8px 14px 20px;
-      overflow-y: auto;
-      background: transparent;
-    }
-
-    /* Assistive Access grid — 2 col, large icons */
-    .app-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      padding: 0 8px;
-    }
-
-    .app-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff;
-      border-radius: 28px;
-      cursor: pointer;
-      padding: 18px 10px 14px;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform 0.12s;
-      gap: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      aspect-ratio: 0.85;
-      border: none;
-    }
-
-    .app-btn:active {
-      transform: scale(0.96);
-      background: #f9f9f9;
-    }
-
-    /* Inner icon */
-    .app-btn .icon-wrap {
-      width: 68%;
-      aspect-ratio: 1;
-      border-radius: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-      overflow: hidden;
-      position: relative;
-      margin-bottom: 0;
-    }
-
-    .app-btn .label {
-      font-size: 19px;
-      font-weight: 600;
-      color: #000;
-      letter-spacing: -0.3px;
-      text-align: center;
-      line-height: 1.2;
-      margin: 0;
-    }
-
-    .app-btn .icon {
-      display: none;
-    }
-
-    /* iOS Phone tabs */
-    .phone-tabs {
-      display: flex;
-      gap: 0;
-      background: #e9e9eb;
-      border-radius: 10px;
-      padding: 2px;
-      margin-bottom: 16px;
-    }
-
-    .phone-tab {
-      flex: 1;
-      padding: 8px 4px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: #636366;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-
-    .phone-tab.active {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-      font-weight: 700;
-    }
-
-    .tab-panel {
-      display: none;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
-
-    /* iOS Call history */
-    .call-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 0;
-      border-bottom: 1px solid #e5e5ea;
-    }
-
-    .call-icon {
-      font-size: 18px;
-      width: 36px;
-      height: 36px;
-      background: #e9e9eb;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .call-info .call-name {
-      font-size: 18px;
-      font-weight: 600;
-      color: #000;
-    }
-
-    .call-info .call-meta {
-      font-size: 14px;
-      color: #8e8e93;
-      margin-top: 2px;
-    }
-
-    /* iOS iMessage style */
-    .chat-messages {
-      flex: 1;
-      padding: 12px 16px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      background: #fff;
-    }
-
-    .bubble {
-      max-width: 75%;
-      padding: 8px 14px;
-      border-radius: 18px;
-      font-size: 17px;
-      line-height: 1.35;
-      position: relative;
-    }
-
-    .bubble.in {
-      background: #e9e9eb;
-      color: #000;
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-      border-top-left-radius: 18px;
-      border-bottom-right-radius: 18px;
-      border-top-right-radius: 18px;
-    }
-
-    .bubble.out {
-      background: #007aff;
-      color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-      border-top-left-radius: 18px;
-      border-bottom-left-radius: 18px;
-      border-top-right-radius: 18px;
-    }
-
-    .bubble.in.tail {
-      border-bottom-left-radius: 18px;
-      margin-bottom: 6px;
-    }
-
-    .bubble.out.tail {
-      border-bottom-right-radius: 18px;
-      margin-bottom: 6px;
-    }
-
-    .bubble-time {
-      font-size: 11px;
-      color: #8e8e93;
-      margin-top: 2px;
-    }
-
-    /* iOS App Overlays */
-    .app-overlay {
-      position: absolute;
-      inset: 0;
-      background: #f2f2f7;
-      border-radius: 46px;
-      display: none;
-      flex-direction: column;
-      z-index: 50;
-      overflow: hidden;
-    }
-
-    .app-overlay.active {
-      display: flex;
-    }
-
-    /* iOS Home Indicator */
-    .home-indicator-area {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 34px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      padding-bottom: 8px;
-      z-index: 1000;
-      cursor: pointer;
-    }
-
-    .home-indicator {
-      width: 134px;
-      height: 5px;
-      background: #fff;
-      mix-blend-mode: difference;
-      border-radius: 10px;
-      transition: opacity 0.2s;
-    }
-
-    .home-indicator-area:active .home-indicator {
-      opacity: 0.5;
-    }
-
-    /* Assistive Access Phone */
-    .aa-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      background: #fff;
-    }
-
-    .aa-pill-btn {
-      background: #f2f2f7;
-      border: none;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 17px;
-      font-weight: 500;
-      color: #000;
-      cursor: pointer;
-      height: 36px;
-    }
-
-    .aa-circle-btn {
-      background: #f2f2f7;
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #000;
-    }
-
-    .aa-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #000;
-    }
-
-    .aa-large-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: #000;
-      padding: 4px 16px 12px;
-      margin: 0;
-      background: #fff;
-    }
-
-    .aa-call-list {
-      padding: 0 16px;
-      overflow-y: auto;
-      padding-bottom: 120px;
-      flex: 1;
-      background: #fff;
-    }
-
-    .aa-call-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #e5e5ea;
-      gap: 14px;
-    }
-
-    .aa-avatar {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-      overflow: hidden;
-      background: #8e8e93;
-    }
-
-    .aa-avatar.default {
-      background: linear-gradient(180deg, #a4b2c6, #7a8ba3);
-    }
-
-    .aa-avatar.purple {
-      background: #8e82d1;
-    }
-
-    .aa-call-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .aa-call-name {
-      font-size: 20px;
-      font-weight: 600;
-      color: #000;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 2px;
-    }
-
-    .aa-call-name.missed {
-      color: #ff3b30;
-    }
-
-    .aa-call-sub {
-      font-size: 15px;
-      color: #8e8e93;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .aa-call-time {
-      font-size: 15px;
-      color: #8e8e93;
-      text-align: right;
-      margin-right: 12px;
-      white-space: nowrap;
-    }
-
-    .aa-call-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #e8f0fe;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      cursor: pointer;
-      color: #007aff;
-    }
-
-    .aa-bottom-nav {
-      position: absolute;
-      bottom: 24px;
-      left: 16px;
-      right: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 50;
-    }
-
-    .aa-nav-pill {
-      flex: 1;
-      background: #fff;
-      border-radius: 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      display: flex;
-      align-items: center;
-      padding: 4px;
-      justify-content: space-around;
-    }
-
-    .aa-nav-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 0;
-      border-radius: 36px;
-      cursor: pointer;
-      color: #000;
-    }
-
-    .aa-nav-item span {
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    .aa-nav-item.active {
-      background: #e8f0fe;
-      color: #007aff;
-    }
-
-    .aa-nav-item svg {
-      fill: currentColor;
-    }
-
-    .aa-nav-item .clock-hands {
-      stroke: #fff;
-    }
-
-    .aa-nav-item.active .clock-hands {
-      stroke: #e8f0fe;
-    }
-
-    .aa-search-btn {
-      width: 64px;
-      height: 64px;
-      background: #fff;
-      border-radius: 50%;
-      border: none;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #000;
-      flex-shrink: 0;
-    }
-
-    /* Assistive Access Keypad */
-    .aa-dial-display {
-      font-size: 40px;
-      font-weight: 400;
-      text-align: center;
-      min-height: 48px;
-      margin-bottom: 24px;
-      letter-spacing: 2px;
-      color: #000;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      padding: 0 16px;
-    }
-
-    .aa-keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px 26px;
-      padding: 0 36px;
-    }
-
-    .aa-key-btn {
-      background: #f9f9f9;
-      border: none;
-      border-radius: 50%;
-      width: 84px;
-      height: 84px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      font-size: 40px;
-      font-weight: 300;
-      color: #000;
-      line-height: 1;
-    }
-
-    .aa-key-btn:active {
-      background: #ebebeb;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-    }
-
-    .aa-key-btn .sub {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3.5px;
-      margin-top: 4px;
-      color: #000;
-      margin-left: 3px;
-    }
-
-    .aa-key-call {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #00df59;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      box-shadow: 0 4px 16px rgba(0, 223, 89, 0.3);
-      cursor: pointer;
-      margin-top: 24px;
-    }
-
-    .aa-key-call:active {
-      background: #00c74f;
-    }
-
-    /* Assistive Access Messages */
-    .aa-msg-list {
-      padding: 0 16px;
-      overflow-y: auto;
-      padding-bottom: 120px;
-      flex: 1;
-      background: #fff;
-    }
-
-    .aa-msg-item {
-      display: flex;
-      align-items: flex-start;
-      padding: 12px 0;
-      border-bottom: 1px solid #e5e5ea;
-      gap: 14px;
-      cursor: pointer;
-    }
-
-    .aa-msg-avatar {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-      overflow: hidden;
-      background: #8e8e93;
-    }
-
-    .aa-msg-avatar.default {
-      background: linear-gradient(180deg, #a4b2c6, #7a8ba3);
-    }
-
-    .aa-msg-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .aa-msg-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2px;
-    }
-
-    .aa-msg-name {
-      font-size: 18px;
-      font-weight: 600;
-      color: #000;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .aa-msg-time-chevron {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .aa-msg-time {
-      font-size: 15px;
-      color: #8e8e93;
-    }
-
-    .aa-msg-chevron {
-      color: #c7c7cc;
-      font-size: 20px;
-      line-height: 1;
-      font-weight: 500;
-      margin-top: -2px;
-    }
-
-    .aa-msg-preview {
-      font-size: 15px;
-      color: #8e8e93;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.3;
-    }
-
-    .aa-msg-bottom-nav {
-      position: absolute;
-      bottom: 24px;
-      left: 16px;
-      right: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 50;
-    }
-
-    .aa-msg-search {
-      flex: 1;
-      height: 56px;
-      background: #f2f2f7;
-      border-radius: 28px;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 12px;
-    }
-
-    .aa-msg-search input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      font-size: 17px;
-      outline: none;
-      color: #000;
-      width: 100%;
-    }
-
-    .aa-msg-search input::placeholder {
-      color: #8e8e93;
-    }
-
-    .aa-msg-compose {
-      width: 56px;
-      height: 56px;
-      background: #fff;
-      border-radius: 20px;
-      border: 1px solid #e5e5ea;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #000;
-      flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Calculator App */
-    .calc-overlay {
-      background: #000;
-      justify-content: flex-end;
-      padding-bottom: 38px;
-    }
-
-    .calc-header {
-      position: absolute;
-      top: 16px;
-      width: 100%;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .calc-icon-btn {
-      width: 38px;
-      height: 38px;
-      background: #2c2c2e;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      cursor: pointer;
-      border: none;
-    }
-
-    .calc-icon-btn:active {
-      background: #4a4a4c;
-    }
-
-    .calc-display {
-      color: #fff;
-      font-size: 86px;
-      text-align: right;
-      padding: 0 24px 14px;
-      font-weight: 300;
-      line-height: 1;
-      word-wrap: break-word;
-      font-family: -apple-system, sans-serif;
-    }
-
-    .calc-keypad {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      padding: 0 16px;
-    }
-
-    .calc-btn {
-      width: 100%;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: none;
-      font-size: 36px;
-      font-weight: 400;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.1s;
-      font-family: -apple-system, sans-serif;
-    }
-
-    .calc-btn.gray {
-      background: #505050;
-      color: #fff;
-    }
-
-    .calc-btn.gray:active {
-      background: #737373;
-    }
-
-    .calc-btn.dark {
-      background: #333333;
-      color: #fff;
-    }
-
-    .calc-btn.dark:active {
-      background: #737373;
-    }
-
-    .calc-btn.orange {
-      background: #ff9f0a;
-      color: #fff;
-      font-size: 44px;
-      font-weight: 300;
-    }
-
-    .calc-btn.orange:active {
-      background: #fcc777;
-    }
-
-    .calc-btn.orange.active-op {
-      background: #fff;
-      color: #ff9f0a;
-    }
-
-    /* iOS Navigation Bar */
-    .overlay-header {
-      padding: 14px 16px 12px;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #c6c6c8;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(249, 249, 249, 0.94);
-      backdrop-filter: blur(20px);
-      gap: 10px;
-    }
-
-    .back-btn {
-      background: none;
-      color: #007aff;
-      border: none;
-      border-radius: 0;
-      padding: 4px 0;
-      font-size: 18px;
-      font-weight: 400;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      white-space: nowrap;
-    }
-
-    .back-btn:active {
-      opacity: 0.5;
-    }
-
-    .overlay-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: #000;
-      flex: 1;
-      text-align: center;
-      margin-right: 60px;
-    }
-
-    .overlay-body {
-      flex: 1;
-      padding: 0 0 16px;
-      overflow-y: auto;
-    }
-
-    /* iOS Phone keypad */
-    .ios-dial-display {
-      font-size: 34px;
-      font-weight: 300;
-      color: #000;
-      text-align: center;
-      letter-spacing: 4px;
-      min-height: 54px;
-      padding: 8px 16px 4px;
-    }
-
-    .keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      padding: 8px 24px;
-    }
-
-    .key-btn {
-      background: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 78px;
-      height: 78px;
-      margin: 0 auto;
-      font-size: 28px;
-      font-weight: 300;
-      color: #000;
-      cursor: pointer;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      line-height: 1.1;
-    }
-
-    .key-btn .sub {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: #8e8e93;
-    }
-
-    .key-btn:active {
-      background: #d1d1d6;
-    }
-
-    .key-btn.call {
-      background: #34c759;
-      color: #fff;
-      font-size: 30px;
-      box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
-    }
-
-    .key-btn.del {
-      background: #e9e9eb;
-      font-size: 22px;
-    }
-
-    /* iOS Messages list */
-    .msg-contact {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 13px 16px;
-      background: #fff;
-      cursor: pointer;
-      border-bottom: 1px solid #e5e5ea;
-    }
-
-    .msg-contact:active {
-      background: #e5e5ea;
-    }
-
-    .msg-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      flex-shrink: 0;
-    }
-
-    .msg-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .msg-info .name {
-      font-size: 17px;
-      font-weight: 600;
-      color: #000;
-    }
-
-    .msg-info .preview {
-      font-size: 15px;
-      color: #8e8e93;
-      margin-top: 1px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .msg-chevron {
-      color: #c7c7cc;
-      font-size: 18px;
-    }
-
-    /* iOS Photos grid */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
-
-    .photo-card {
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 50px;
-      background: #e5e5ea;
-    }
-
-    /* iOS Reminders-style Meds */
-    .ios-section-header {
-      font-size: 13px;
-      font-weight: 600;
-      color: #8e8e93;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 16px 16px 6px;
-    }
-
-    .ios-list {
-      background: #fff;
-      border-radius: 12px;
-      margin: 0 16px 16px;
-      overflow: hidden;
-    }
-
-    .med-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      background: #fff;
-      cursor: pointer;
-      border-bottom: 1px solid #e5e5ea;
-    }
-
-    .med-item:last-child {
-      border-bottom: none;
-    }
-
-    .med-item:active {
-      background: #e5e5ea;
-    }
-
-    .med-check {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 2px solid #ff9500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      color: transparent;
-    }
-
-    .med-check.done {
-      background: #34c759;
-      border-color: #34c759;
-      color: #fff;
-    }
-
-    .med-info .med-name {
-      font-size: 17px;
-      font-weight: 500;
-      color: #000;
-    }
-
-    .med-info .med-time {
-      font-size: 14px;
-      color: #8e8e93;
-      margin-top: 2px;
-    }
-
-    /* iOS News style */
-    .news-featured {
-      margin: 0 16px 16px;
-      background: #fff;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .news-featured-img {
-      width: 100%;
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 60px;
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    }
-
-    .news-featured-body {
-      padding: 14px;
-    }
-
-    .news-item {
-      padding: 14px 16px;
-      background: #fff;
-      border-bottom: 1px solid #e5e5ea;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .news-item:active {
-      background: #e5e5ea;
-    }
-
-    .news-emoji {
-      font-size: 32px;
-      flex-shrink: 0;
-    }
-
-    .news-item .news-tag {
-      font-size: 12px;
-      font-weight: 700;
-      color: #ff3b30;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 2px;
-    }
-
-    .news-item .news-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #000;
-      line-height: 1.3;
-    }
-
-    .news-item .news-time {
-      font-size: 12px;
-      color: #8e8e93;
-      margin-top: 3px;
-    }
-
-    @media (max-width: 420px) {
-      .phone-frame {
-        width: 100%;
-        border-radius: 0;
-        min-height: 100vh;
-      }
-
-      .phone-notch {
-        display: none;
-      }
-
-      .phone-screen {
-        border-radius: 0;
-      }
-
-      .app-overlay {
-        border-radius: 0;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -1332,14 +59,14 @@
             <span class="label">Facebook</span>
           </button>
 
-          <!-- Calculator -->
-          <button class="app-btn" onclick="openApp('calculator')">
+          <!-- Mail -->
+          <button class="app-btn" onclick="openApp('mail')">
             <div class="icon-wrap" style="background:transparent;">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Calculator_%28iOS_26%29_app_icon.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
-                style="width:100%; height:100%; border-radius:22%; object-fit:cover;" alt="Calculator">
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Mail_%28iOS%29.svg/3840px-Mail_%28iOS%29.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail"
+                style="width:100%; height:100%; border-radius:22%; object-fit:cover;" alt="Mail">
             </div>
-            <span class="label">Calculator</span>
+            <span class="label">Mail</span>
           </button>
 
           <!-- Calls -->
@@ -1509,1518 +236,1212 @@
         </div>
       </div>
 
-      <!-- CALCULATOR OVERLAY -->
-      <div class="app-overlay calc-overlay" id="app-calculator">
-        <div class="calc-header">
-          <button class="calc-icon-btn" onclick="closeApp()">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-          </button>
-          <button class="calc-icon-btn">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round">
-              <rect x="4" y="2" width="16" height="20" rx="3" />
-              <line x1="8" y1="6" x2="16" y2="6" />
-              <line x1="8" y1="10" x2="8" y2="10" />
-              <line x1="12" y1="10" x2="12" y2="10" />
-              <line x1="16" y1="10" x2="16" y2="10" />
-              <line x1="8" y1="14" x2="8" y2="14" />
-              <line x1="12" y1="14" x2="12" y2="14" />
-              <line x1="16" y1="14" x2="16" y2="14" />
-              <line x1="8" y1="18" x2="8" y2="18" />
-              <line x1="12" y1="18" x2="12" y2="18" />
-              <line x1="16" y1="18" x2="16" y2="18" />
-            </svg>
-          </button>
+      <!-- MAIL OVERLAY -->
+      <div class="app-overlay mail-overlay" id="app-mail" style="flex-direction:column;">
+        <!-- Mail Header -->
+        <div
+          style="background:rgba(249,249,249,0.94); backdrop-filter:blur(20px); border-bottom:1px solid #c6c6c8; padding:52px 16px 10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <button onclick="closeApp()"
+              style="background:none; border:none; color:#007aff; font-size:17px; font-weight:400; cursor:pointer; display:flex; align-items:center; gap:3px;">
+              <svg width="10" height="18" viewBox="0 0 10 18" fill="none" stroke="#007aff" stroke-width="2.5"
+                stroke-linecap="round">
+                <polyline points="9 1 1 9 9 17" />
+              </svg>
+              Mailboxes
+            </button>
+            <button style="background:none; border:none; color:#007aff; cursor:pointer;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2"
+                stroke-linecap="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+          </div>
+          <h1 style="font-size:32px; font-weight:800; color:#000; margin:0 0 4px;">Inbox</h1>
+          <div style="font-size:13px; color:#8e8e93; font-weight:500;" id="mailUnreadCount">5 Unread</div>
         </div>
 
-        <div class="calc-display" id="calcDisplay">0</div>
-
-        <div class="calc-keypad">
-          <button class="calc-btn gray" onclick="calcAction('del')"><svg viewBox="0 0 24 24" width="32" height="32"
-              fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M20 5H10l-6 7 6 7h10a2 2 0 002-2V7a2 2 0 00-2-2z"></path>
-              <line x1="16" y1="9" x2="12" y2="15"></line>
-              <line x1="12" y1="9" x2="16" y2="15"></line>
-            </svg></button>
-          <button class="calc-btn gray" style="font-size:32px;" onclick="calcAction('clear')"><span
-              id="calc-ac-text">AC</span></button>
-          <button class="calc-btn gray" onclick="calcAction('percent')">%</button>
-          <button class="calc-btn orange" id="calc-op-div" onclick="calcAction('op', '/')">÷</button>
-
-          <button class="calc-btn dark" onclick="calcAction('num', '7')">7</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '8')">8</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '9')">9</button>
-          <button class="calc-btn orange" id="calc-op-mul" onclick="calcAction('op', '*')">×</button>
-
-          <button class="calc-btn dark" onclick="calcAction('num', '4')">4</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '5')">5</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '6')">6</button>
-          <button class="calc-btn orange" id="calc-op-sub" onclick="calcAction('op', '-')">−</button>
-
-          <button class="calc-btn dark" onclick="calcAction('num', '1')">1</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '2')">2</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '3')">3</button>
-          <button class="calc-btn orange" id="calc-op-add" onclick="calcAction('op', '+')">+</button>
-
-          <button class="calc-btn dark" style="font-size:30px;" onclick="calcAction('toggle')">⁺∕₋</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '0')">0</button>
-          <button class="calc-btn dark" onclick="calcAction('num', '.')">,</button>
-          <button class="calc-btn orange" onclick="calcAction('calc')">=</button>
-        </div>
-      </div>
-
-      <!-- MESSAGES OVERLAY -->
-      <div class="app-overlay" id="app-messages" style="background:#fff;">
-        <div class="aa-header">
-          <button class="aa-pill-btn" onclick="closeApp()">Back</button>
-          <button class="aa-circle-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round">
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="6" y1="12" x2="18" y2="12" />
-              <line x1="8" y1="17" x2="16" y2="17" />
-            </svg>
-          </button>
-        </div>
-        <h1 class="aa-large-title">Messages</h1>
-
-        <div class="aa-msg-list" id="aaMsgList">
+        <!-- Mail List -->
+        <div style="flex:1; overflow-y:auto; padding-bottom:80px;" id="mailList">
           <!-- JS will populate -->
         </div>
 
-        <div class="aa-msg-bottom-nav">
-          <div class="aa-msg-search">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"
+        <!-- Compose Button -->
+        <button class="mail-compose-btn" onclick="openMailCompose()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+          </svg>
+        </button>
+
+        <!-- Bottom Toolbar -->
+        <div
+          style="position:absolute; bottom:0; left:0; width:100%; background:rgba(249,249,249,0.94); backdrop-filter:blur(20px); border-top:1px solid #c6c6c8; padding:10px 28px 30px; display:flex; justify-content:space-between; align-items:center; z-index:10;">
+          <button
+            style="background:none; border:none; color:#007aff; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; font-size:11px; font-weight:500;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2"
               stroke-linecap="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
-            <input type="text" placeholder="Search" readonly>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"
+          </button>
+          <button
+            style="background:none; border:none; color:#8e8e93; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; font-size:11px; font-weight:500;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"
               stroke-linecap="round">
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" y1="19" x2="12" y2="23" />
-              <line x1="8" y1="23" x2="16" y2="23" />
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
             </svg>
-          </div>
-          <button class="aa-msg-compose">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          </button>
+          <button style="background:none; border:none; color:#8e8e93; cursor:pointer;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"
+              stroke-linecap="round">
+              <circle cx="12" cy="12" r="3" />
+              <circle cx="12" cy="12" r="9" />
             </svg>
           </button>
         </div>
       </div>
 
-      <!-- CHAT OVERLAY -->
-      <div class="app-overlay" id="app-chat" style="flex-direction:column;background:#fff;z-index:60;">
-        <div class="aa-header" style="border-bottom: 1px solid #e5e5ea; padding: 8px 16px;">
-          <button class="aa-pill-btn" onclick="closeChat()"
-            style="background:transparent; color:#007aff; padding:0; display:flex; align-items:center; font-size:17px; font-weight:400; width:80px; justify-content:flex-start;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;">
-              <polyline points="15 18 9 12 15 6" />
-            </svg> Back
-          </button>
-          <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
-            <div id="chatAvatarNode"
-              style="width:36px; height:36px; border-radius:50%; background:#8e8e93; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; overflow:hidden;">
-            </div>
-            <div class="aa-title" id="chatTitle"
-              style="font-size:12px; font-weight:500; margin-top:2px; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-              Name</div>
-          </div>
-          <div style="width:80px;"></div>
-        </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input-row" style="background:#f9f9f9; padding: 12px 16px 30px; border-top: 1px solid #e5e5ea;">
-          <div
-            style="display:flex; align-items:center; background:#fff; border:1px solid #c7c7cc; border-radius:24px; padding:4px 4px 4px 16px; flex:1;">
-            <input id="chatInput" type="text" placeholder="iMessage"
-              style="border:none; padding:8px 0; font-size:17px; outline:none; flex:1; background:transparent;" />
-            <button onclick="sendChatMsg()"
-              style="background:#00df59; color:#fff; border:none; border-radius:50%; margin-left:8px; width:30px; height:30px; min-width:30px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5" />
-                <polyline points="5 12 12 5 19 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHOTOS OVERLAY -->
-      <div class="app-overlay" id="app-photos" style="background:#000; flex-direction:column;">
-        <div class="aa-header" style="background:transparent; border-bottom: none; padding: 12px 16px;">
-          <button class="aa-pill-btn" onclick="closeApp()"
-            style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:8px 16px; border-radius:12px; font-size:17px; font-weight:600;">
-            Back
+      <!-- MAIL DETAIL OVERLAY -->
+      <div class="app-overlay mail-detail-overlay" id="app-mail-detail"
+        style="flex-direction:column; z-index:60; background:#fff;">
+        <!-- Detail Header -->
+        <div
+          style="background:rgba(249,249,249,0.94); backdrop-filter:blur(20px); border-bottom:1px solid #c6c6c8; padding:52px 16px 10px; display:flex; align-items:center; gap:10px;">
+          <button onclick="closeMailDetail()"
+            style="background:none; border:none; color:#007aff; font-size:17px; font-weight:400; cursor:pointer; display:flex; align-items:center; gap:3px; flex-shrink:0;">
+            <svg width="10" height="18" viewBox="0 0 10 18" fill="none" stroke="#007aff" stroke-width="2.5"
+              stroke-linecap="round">
+              <polyline points="9 1 1 9 9 17" />
+            </svg>
+            Inbox
           </button>
           <div style="flex:1;"></div>
-          <div style="display:flex; gap:10px;">
-            <button
-              style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
-            <button
-              style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:8px 16px; border-radius:15px; font-size:15px; font-weight:600;">Select</button>
-          </div>
-        </div>
-
-        <div class="overlay-body" style="padding: 0 4px; overflow-y: auto;">
-          <h1 style="color:#fff; font-size:34px; font-weight:900; margin: 0 12px;">Library</h1>
-          <div style="color:#8e8e93; font-size:17px; font-weight:600; margin: 0 12px 15px;">7 235 Items</div>
-
-          <div id="photoGrid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
-            <!-- JS will populate -->
-          </div>
-        </div>
-
-        <!-- Bottom Navigation Photos -->
-        <div
-          style="padding: 10px 16px 40px; display:flex; align-items:center; justify-content:center; gap: 40px; background:rgba(0,0,0,0.85);">
-          <div
-            style="background:rgba(255,255,255,0.1); border-radius: 35px; display:flex; align-items:center; padding: 5px;">
-            <div
-              style="background:#fff; color:#007aff; border-radius:30px; padding: 10px 25px; display:flex; flex-direction:column; align-items:center;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 15l4-4 4 4 5-5 4 4v2H3v-1z" fill="#007aff" />
-              </svg>
-              <span style="font-size:10px; font-weight:700; margin-top:2px;">Library</span>
-            </div>
-            <div
-              style="color:#fff; padding: 10px 25px; display:flex; flex-direction:column; align-items:center; opacity: 0.6;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
-              </svg>
-              <span style="font-size:10px; font-weight:700; margin-top:2px;">Collections</span>
-            </div>
-          </div>
-          <div
-            style="width:50px; height:50px; background:rgba(255,255,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          <button style="background:none; border:none; color:#007aff; cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2"
+              stroke-linecap="round">
+              <circle cx="12" cy="4" r="1" />
+              <circle cx="12" cy="12" r="1" />
+              <circle cx="12" cy="20" r="1" />
             </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- FULL SCREEN PHOTO VIEWER -->
-      <div class="app-overlay" id="app-full-photo" style="background:#000; z-index: 1000; flex-direction:column;">
-        <div class="aa-header" style="background:transparent; border-bottom: none; padding: 12px 16px;">
-          <button class="aa-pill-btn" onclick="document.getElementById('app-full-photo').classList.remove('active')"
-            style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:8px 16px; border-radius:12px; font-size:17px; font-weight:600;">
-            Close
           </button>
         </div>
-        <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:10px;">
-          <img id="fullPhotoImg" src=""
-            style="max-width:100%; max-height:100%; border-radius:10px; object-fit:contain;">
-        </div>
-        <div style="padding: 20px 20px 50px; display:flex; justify-content:space-between; align-items:center;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-            <polyline points="16 6 12 2 8 6" />
-            <line x1="12" y1="2" x2="12" y2="15" />
-          </svg>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <path
-              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <polyline points="3 6 5 6 21 6" />
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-          </svg>
-        </div>
-      </div>
 
-      <!-- MEDS OVERLAY -->
-      <div class="app-overlay" id="app-meds">
-        <div class="overlay-header">
-          <button class="back-btn" onclick="closeApp()">‹ Назад</button>
-          <span class="overlay-title">Лекарства</span>
-        </div>
-        <div class="overlay-body" style="padding:0;">
-          <div class="ios-section-header">Днешни лекарства</div>
-          <div class="ios-list">
-            <div class="med-item" onclick="toggleMed(this)">
-              <div class="med-check">✓</div>
-              <div class="med-info">
-                <div class="med-name">Аспирин 100mg</div>
-                <div class="med-time">Сутрин · 08:00</div>
+        <!-- Mail Detail Content -->
+        <div style="flex:1; overflow-y:auto; padding:20px 16px 100px;">
+          <h2 id="mailDetailSubject"
+            style="font-size:22px; font-weight:700; color:#000; margin:0 0 12px; line-height:1.3;"></h2>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+            <div id="mailDetailAvatar"
+              style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, #007aff, #5ac8fa); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; color:#fff; flex-shrink:0;">
+            </div>
+            <div style="flex:1; min-width:0;">
+              <div id="mailDetailSender" style="font-size:15px; font-weight:600; color:#000;"></div>
+              <div style="font-size:13px; color:#8e8e93; display:flex; align-items:center; gap:4px;">
+                To: Me &nbsp;
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </div>
             </div>
-            <div class="med-item" onclick="toggleMed(this)">
-              <div class="med-check">✓</div>
-              <div class="med-info">
-                <div class="med-name">Метформин 500mg</div>
-                <div class="med-time">На обяд · 13:00</div>
-              </div>
+            <div id="mailDetailTime" style="font-size:13px; color:#8e8e93; white-space:nowrap; flex-shrink:0;">
             </div>
-            <div class="med-item" onclick="toggleMed(this)">
-              <div class="med-check">✓</div>
-              <div class="med-info">
-                <div class="med-name">Лизиноприл 10mg</div>
-                <div class="med-time">Вечер · 20:00</div>
+          </div>
+          <div id="mailDetailBody" style="font-size:16px; line-height:1.6; color:#1c1c1e; white-space:pre-wrap; margin-bottom: 24px;">
+          </div>
+          
+          <!-- Attachments Section -->
+          <div id="mailAttachments" style="display:none; border-top: 1px solid #e5e5ea; padding-top: 16px;">
+            <div style="font-size:13px; font-weight:700; color:#8e8e93; margin-bottom:12px; text-transform:uppercase;">1 Attachment</div>
+            <div style="display:flex; align-items:center; gap:12px; background:#f2f2f7; border-radius:12px; padding:12px; cursor:pointer; border: 1px solid #d1d1d6;">
+              <div style="width:40px; height:40px; background:#ff3b30; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:10px;">PDF</div>
+              <div style="flex:1;">
+                <div id="attachmentName" style="font-size:15px; font-weight:600; color:#000;">Protocol_NIK_2026.pdf</div>
+                <div id="attachmentSize" style="font-size:13px; color:#8e8e93;">2.4 MB</div>
               </div>
-            </div>
-            <div class="med-item" onclick="toggleMed(this)">
-              <div class="med-check">✓</div>
-              <div class="med-info">
-                <div class="med-name">Витамин D3</div>
-                <div class="med-time">Сутрин · 08:00</div>
-              </div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- CAMERA OVERLAY -->
-      <div class="app-overlay" id="app-camera" style="background:#000; flex-direction:column; padding-top: 20px;">
-        <!-- Top Exit/Back Button (Essential for Simulator) -->
-        <div style="position: absolute; top: 50px; left: 20px; z-index: 100;">
-          <button onclick="closeApp()"
-            style="background:rgba(0,0,0,0.5); color:#fff; border:none; padding:10px 20px; border-radius:15px; font-size:18px; font-weight:600;">Back</button>
-        </div>
-
-        <!-- Top Right Controls -->
+        <!-- Reply Toolbar -->
         <div
-          style="position: absolute; top: 60px; right: 20px; display: flex; background: rgba(255,255,255,0.15); border-radius: 30px; padding: 6px 12px; gap: 15px; z-index: 10;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-          </svg>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <line x1="9" y1="3" x2="9" y2="21" />
-            <line x1="15" y1="3" x2="15" y2="21" />
-            <line x1="3" y1="9" x2="21" y2="9" />
-            <line x1="3" y1="15" x2="21" y2="15" />
-          </svg>
-        </div>
-
-        <!-- Viewfinder -->
-        <div
-          style="flex: 1; position: relative; margin: 40px 0 20px; overflow: hidden; display: flex; flex-direction: column;">
-          <!-- Camera Video Stream -->
-          <div style="flex: 1; background: #1c1c1e; position: relative;">
-            <video id="cameraVideo" autoplay playsinline muted
-              style="width:100%; height:100%; object-fit:cover; transform: scaleX(-1);"></video>
-
-            <!-- Grid Lines Overlay -->
-            <div
-              style="position: absolute; top: 0; left: 33.33%; width: 1px; height: 100%; background: rgba(255,255,255,0.3); pointer-events: none;">
-            </div>
-            <div
-              style="position: absolute; top: 0; left: 66.66%; width: 1px; height: 100%; background: rgba(255,255,255,0.3); pointer-events: none;">
-            </div>
-            <div
-              style="position: absolute; top: 33.33%; left: 0; width: 100%; height: 1px; background: rgba(255,255,255,0.3); pointer-events: none;">
-            </div>
-            <div
-              style="position: absolute; top: 66.66%; left: 0; width: 100%; height: 1px; background: rgba(255,255,255,0.3); pointer-events: none;">
-            </div>
-
-            <!-- Zoom Selector Overlay -->
-            <div
-              style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 20px; color: #fff; font-size: 14px; font-weight: 600; pointer-events: none;">
-              <span>0,5</span>
-              <div
-                style="width: 32px; height: 32px; background: #ffcc00; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                1x</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Shutter Button -->
-        <div style="display: flex; justify-content: center; padding: 10px 0;">
-          <div
-            style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid #fff; padding: 4px; display: flex; align-items: center; justify-content: center;">
-            <div style="width: 100%; height: 100%; background: #fff; border-radius: 50%;"></div>
-          </div>
-        </div>
-
-        <!-- Bottom Controls -->
-        <div style="padding: 20px 20px 50px; display: flex; align-items: center; justify-content: space-between;">
-          <!-- Gallery (Black per request) -->
-          <div style="width: 48px; height: 48px; background: #000; border: 1px solid #333; border-radius: 8px;"></div>
-
-          <!-- Mode Pill -->
-          <div
-            style="background: rgba(255,255,255,0.1); border-radius: 30px; display: flex; align-items: center; padding: 4px;">
-            <div style="padding: 8px 24px; color: #fff; font-size: 14px; font-weight: 700;">VIDEO</div>
-            <div
-              style="padding: 8px 24px; background: rgba(255,255,255,0.2); color: #ffcc00; border-radius: 25px; font-size: 14px; font-weight: 700;">
-              PHOTO</div>
-          </div>
-
-          <!-- Flip Button -->
-          <div
-            style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-              <path d="M20 4v5h-5" />
-              <path d="M4 20v-5h5" />
-              <path d="M20 12.8A9 9 0 0 0 4.92 7.1L4 9" />
-              <path d="M4 11.2a9 9 0 0 0 15.08 5.7L20 15" />
+          style="position:absolute; bottom:0; left:0; width:100%; background:rgba(249,249,249,0.94); backdrop-filter:blur(20px); border-top:1px solid #c6c6c8; padding:12px 28px 30px; display:flex; justify-content:space-between; align-items:center; z-index:10;">
+          <button
+            style="background:none; border:none; color:#007aff; cursor:pointer; display:flex; align-items:center; gap:6px; font-size:16px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2"
+              stroke-linecap="round">
+              <polyline points="9 17 4 12 9 7" />
+              <line x1="20" y1="12" x2="4" y2="12" />
             </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- KAUFLAND OVERLAY -->
-      <div class="app-overlay" id="app-kaufland" style="background:#fff; flex-direction:column; padding-top: 0;">
-        <!-- Top Bar -->
-        <div
-          style="background:#e2001a; padding: 50px 16px 20px; color:#fff; display:flex; align-items:center; justify-content:space-between;">
-          <div style="display:flex; align-items:center; gap: 10px;">
-            <button onclick="closeApp()"
-              style="background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:12px; padding:4px 8px; font-size:12px;">Back</button>
-            <span style="font-size:20px; font-weight:700;">Hello</span>
-          </div>
-          <div
-            style="background:rgba(255,255,255,0.9); border-radius:20px; display:flex; align-items:center; padding: 2px 2px 2px 10px; color:#000;">
-            <span style="font-weight:700; font-size:14px; color:#e2001a; margin-right:4px;">X</span>
-            <span style="font-weight:700; font-size:14px; margin-right:4px;">65</span>
-            <div
-              style="width:24px; height:24px; background:#ffcc00; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:900;">
-              K</div>
-          </div>
-        </div>
-
-        <div class="overlay-body" style="background:#f2f2f7; padding:0;">
-          <!-- Category Circles -->
-          <div
-            style="background:linear-gradient(180deg, #e2001a, #f2f2f7); padding: 10px 0 20px; display:flex; overflow-x:auto; gap:12px; padding-left:16px;">
-            <!-- K-Card -->
-            <div style="min-width:80px; text-align:center;">
-              <div
-                style="width:80px; height:80px; background:#fff; border-radius:50%; border:4px solid #007aff; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:40px;">
-                📱</div>
-              <div
-                style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
-                HOBO</div>
-              <div style="font-size:10px; font-weight:600; margin-top:4px;">Kaufland Card XTRA</div>
-            </div>
-            <!-- Surprise -->
-            <div style="min-width:80px; text-align:center;">
-              <div
-                style="width:80px; height:80px; background:#fff; border-radius:50%; border:4px solid #007aff; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:40px;">
-                🎁</div>
-              <div
-                style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
-                HOBO</div>
-              <div style="font-size:10px; font-weight:600; margin-top:4px;">Изненада за деня</div>
-            </div>
-            <!-- Offers -->
-            <div style="min-width:80px; text-align:center;">
-              <div
-                style="width:80px; height:80px; background:#e2001a; border-radius:50%; border:4px solid #007aff; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; font-weight:900;">
-                <div>XTRA</div>
-                <div>ОФЕРТИ</div>
-              </div>
-              <div
-                style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
-                HOBO</div>
-              <div style="font-size:10px; font-weight:600; margin-top:4px;">XTRA продукти</div>
-            </div>
-            <!-- Coupons -->
-            <div style="min-width:80px; text-align:center;">
-              <div
-                style="width:80px; height:80px; background:#e2001a; border-radius:50%; border:4px solid #007aff; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; font-weight:900;">
-                <div>XTRA</div>
-                <div>КУПОНИ</div>
-              </div>
-              <div
-                style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
-                HOBO</div>
-              <div style="font-size:10px; font-weight:600; margin-top:4px;">XTRA купони</div>
-            </div>
-          </div>
-
-          <!-- Last Purchase Card -->
-          <div
-            style="margin:0 16px; background:linear-gradient(135deg, #003a70, #005aa2); border-radius:20px; padding:20px; color:#fff; position:relative;">
-            <div style="position:absolute; top:12px; right:12px; font-size:20px; opacity:0.6;">✕</div>
-            <div style="text-align:center; margin-bottom:15px;">
-              <div style="font-size:18px; font-weight:700;">Your last purchase</div>
-              <div style="font-size:13px; opacity:0.8;">from 13.05.2026</div>
-            </div>
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:15px;">
-              <div
-                style="background:rgba(255,255,255,0.9); color:#000; padding:10px; border-radius:12px; text-align:center;">
-                <div style="font-size:16px; font-weight:700;">8,04€</div>
-                <div style="font-size:11px; opacity:0.6;">Paid</div>
-              </div>
-              <div
-                style="background:rgba(255,255,255,0.9); color:#000; padding:10px; border-radius:12px; text-align:center;">
-                <div
-                  style="font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:2px;">
-                  8 <span
-                    style="background:#ffcc00; color:#fff; border-radius:50%; width:14px; height:14px; font-size:9px; display:flex; align-items:center; justify-content:center;">K</span>
-                </div>
-                <div style="font-size:11px; opacity:0.6;">XTRA Points</div>
-              </div>
-              <div
-                style="background:rgba(255,255,255,0.9); color:#000; padding:10px; border-radius:12px; text-align:center;">
-                <div style="font-size:16px; font-weight:700;">1,33€</div>
-                <div style="font-size:11px; opacity:0.6;">Savings</div>
-              </div>
-            </div>
-            <button
-              style="width:100%; background:#fff; color:#003a70; border:none; padding:12px; border-radius:25px; font-size:15px; font-weight:700;">Redeem
-              points now</button>
-          </div>
-
-          <!-- Products Header -->
-          <div style="padding: 20px 16px 10px; display:flex; justify-content:space-between; align-items:center;">
-            <div style="font-size:16px; font-weight:700;">Виж своите <span style="font-style:italic;">XTRA</span>
-              продукти за 0,01€</div>
-            <div style="color:#e2001a; font-size:14px; font-weight:700;">All ></div>
-          </div>
-          <div style="padding: 0 16px 15px; font-size:13px; color:#8e8e93; font-weight:600;">11.05. - 30.06.</div>
-
-          <!-- Product Grid -->
-          <div style="display:flex; gap:12px; padding:0 16px 100px; overflow-x:auto;">
-            <!-- Nesquik -->
-            <div
-              style="min-width:160px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-              <div style="height:100px; display:flex; align-items:center; justify-content:center; font-size:40px;">🍫
-              </div>
-              <div style="font-size:13px; font-weight:700; margin-top:10px;">NESQUIK Тунквана вафла с млечен крем</div>
-            </div>
-            <!-- Coca Cola -->
-            <div
-              style="min-width:160px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); position:relative;">
-              <div
-                style="position:absolute; top:8px; right:8px; background:#003a70; color:#fff; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center;">
-                🔒</div>
-              <div style="height:100px; display:flex; align-items:center; justify-content:center; font-size:40px;">🥤
-              </div>
-              <div style="font-size:13px; font-weight:700; margin-top:10px;">COLA Zero 1</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div
-          style="position:absolute; bottom:0; left:0; width:100%; background:#fff; border-top:1px solid #e5e5ea; padding:10px 16px 30px; display:flex; justify-content:space-between; align-items:center; z-index:20;">
-          <div style="text-align:center; color:#e2001a;">
-            <div style="font-size:24px;">🏠</div>
-            <div style="font-size:10px; font-weight:700;">Home</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">%</div>
-            <div style="font-size:10px; font-weight:700;">Offers</div>
-          </div>
-          <!-- Floating K-Card -->
-          <div
-            style="background:#e2001a; color:#fff; padding:8px 16px; border-radius:12px; margin-top:-40px; box-shadow:0 4px 12px rgba(226,0,26,0.4); display:flex; flex-direction:column; align-items:center; gap:2px;">
-            <div style="font-size:18px; font-weight:900;">[ ] Kaufland</div>
-            <div style="font-size:14px; font-weight:900; font-style:italic;">XTRA</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">X</div>
-            <div style="font-size:10px; font-weight:700;">Benefits</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">㗊</div>
-            <div style="font-size:10px; font-weight:700;">Services</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LIDL PLUS OVERLAY -->
-      <div class="app-overlay" id="app-lidl" style="background:#fff; flex-direction:column; padding-top: 0;">
-        <!-- Top Location Bar -->
-        <div style="padding: 50px 16px 10px; display:flex; justify-content:space-between; align-items:flex-start;">
-          <div>
-            <div style="display:flex; align-items:center; gap:4px; font-weight:700; font-size:15px; color:#333;">
-              Русе – ул. Майор Ата... <span style="font-size:12px; opacity:0.6;">›</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:6px; font-size:14px; color:#8e8e93; margin-top:2px;">
-              <div style="width:8px; height:8px; background:#4cd964; border-radius:50%;"></div>
-              Отворен
-            </div>
-          </div>
-          <div style="position:relative;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.5">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            Reply
+          </button>
+          <button
+            style="background:none; border:none; color:#007aff; cursor:pointer; display:flex; align-items:center; gap:6px; font-size:16px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2"
+              stroke-linecap="round">
+              <polyline points="15 17 20 12 15 7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
             </svg>
-            <div
-              style="position:absolute; top:-4px; right:-4px; background:#e2001a; color:#fff; font-size:10px; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-              8</div>
-          </div>
+            Forward
+          </button>
+          <button style="background:none; border:none; color:#ff3b30; cursor:pointer; font-size:16px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff3b30" stroke-width="2"
+              stroke-linecap="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+          </button>
         </div>
-
-        <div class="overlay-body" style="background:#fff; padding:0;">
-          <div style="padding:0 16px 15px;">
-            <h1 style="font-size:26px; font-weight:800; color:#1a1a1a; margin: 0 0 15px;">Здравей</h1>
-            <div style="display:flex; gap:12px;">
-              <button
-                style="background:transparent; border:1px solid #e5e5ea; border-radius:20px; padding:8px 16px; display:flex; align-items:center; gap:8px; font-weight:700; color:#0050aa;">
-                <span style="font-size:16px;">🏷️</span> Партньори
-              </button>
-              <button
-                style="background:transparent; border:1px solid #e5e5ea; border-radius:20px; padding:8px 16px; display:flex; align-items:center; gap:8px; font-weight:700; color:#0050aa;">
-                <span style="font-size:16px;">🧑‍🍳</span> Готви с Lidl
-              </button>
-            </div>
-          </div>
-
-          <!-- Notification Card -->
-          <div
-            style="margin: 0 16px 20px; background:#eff6ff; border-radius:12px; padding:16px; position:relative; border:1px solid #dbeafe;">
-            <div style="position:absolute; top:12px; right:12px; font-size:20px; opacity:0.4;">✕</div>
-            <div style="display:flex; gap:12px;">
-              <div style="font-size:24px;">🔔</div>
-              <div>
-                <div style="font-weight:800; font-size:15px; color:#001a41; margin-bottom:4px;">Не пропускай нищо!</div>
-                <div style="font-size:13px; color:#4a5568; line-height:1.4; margin-bottom:12px;">Получавай известия за
-                  оферти, важна информация за твоите покупки и още интересни неща.</div>
-                <div style="font-weight:800; font-size:14px; color:#0050aa; cursor:pointer;">Активирай известията</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Banner Card -->
-          <div
-            style="margin: 0 16px 100px; border-radius:12px; overflow:hidden; border:1px solid #e5e5ea; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-            <div
-              style="background: linear-gradient(135deg, #001a41, #0050aa, #ff00ff); height:220px; padding:20px; color:#fff; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-              <div style="font-size:13px; font-weight:700; opacity:0.9;">Вдъхнови се от тренда</div>
-              <div style="font-size:32px; font-weight:900; margin:10px 0; letter-spacing:-1px;">PROJECT YOUTH</div>
-              <div style="font-size:12px; font-weight:600; margin-top:10px;">Пазарувай с твоята младежка карта в Lidl и
-                вземи 15% отстъпка</div>
-              <div style="display:flex; gap:10px; margin-top:15px;">
-                <div
-                  style="background:#fff; color:#0050aa; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:900;">
-                  LIDL</div>
-                <div
-                  style="background:#e2001a; color:#fff; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:900;">
-                  Postbank</div>
-              </div>
-            </div>
-            <div
-              style="padding:16px; display:flex; justify-content:space-between; align-items:center; background:#fff;">
-              <div>
-                <div style="font-weight:700; font-size:14px;">Виж повече тук</div>
-                <div style="font-size:12px; color:#8e8e93;">postbank.bg</div>
-              </div>
-              <div style="font-size:20px; opacity:0.4;">›</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating Card Button -->
-        <div
-          style="position:absolute; bottom:90px; right:16px; left:16px; display:flex; justify-content:center; z-index:30; pointer-events: none;">
-          <div
-            style="pointer-events: auto; background:#0050aa; color:#fff; border-radius:40px; padding:12px 24px; display:flex; align-items:center; gap:12px; box-shadow:0 4px 15px rgba(0,80,170,0.4); width:100%;">
-            <div style="font-size:20px;">💳</div>
-            <div style="font-weight:800; font-size:15px; flex:1;">Lidl Plus карта</div>
-            <div style="font-size:18px;">⌃</div>
-          </div>
-        </div>
-
-        <!-- Lidl Footer -->
-        <div
-          style="position:absolute; bottom:0; left:0; width:100%; background:#fff; border-top:1px solid #e5e5ea; padding:10px 16px 30px; display:flex; justify-content:space-between; align-items:center; z-index:20;">
-          <div style="text-align:center; color:#0050aa;">
-            <div style="font-size:24px;">🏠</div>
-            <div style="font-size:10px; font-weight:700;">Начало</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">%</div>
-            <div style="font-size:10px; font-weight:700;">Промоции</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">🎟️</div>
-            <div style="font-size:10px; font-weight:700;">Купони</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">📰</div>
-            <div style="font-size:10px; font-weight:700;">Брошури</div>
-          </div>
-          <div style="text-align:center; color:#8e8e93;">
-            <div style="font-size:24px;">👤</div>
-            <div style="font-size:10px; font-weight:700;">Профил</div>
-          </div>
-        </div>
-        <!-- Simple Close Button for Simulator -->
-        <button onclick="closeApp()"
-          style="position:absolute; top:50px; left:16px; z-index:100; background:rgba(0,0,0,0.1); border:none; border-radius:12px; padding:4px 8px; font-size:12px;">Back</button>
       </div>
 
-      <!-- WEATHER OVERLAY -->
-      <div class="app-overlay" id="app-weather"
-        style="background: url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=800') center center / cover; flex-direction:column; padding-top: 0; color:#fff;">
-        <div
-          style="flex:1; overflow-y:auto; padding-top: 80px; text-align:center; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-          <button onclick="closeApp()"
-            style="position:absolute; top:50px; left:16px; background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:12px; padding:4px 8px; font-size:12px; z-index:100;">Back</button>
-
-          <h1 style="font-size:34px; font-weight:400; margin:0;">Ruse</h1>
-          <div style="font-size:96px; font-weight:200; margin: -10px 0 0;">17°</div>
-          <div style="font-size:20px; font-weight:600;">Mostly Cloudy</div>
-          <div style="font-size:20px; font-weight:600; opacity:0.9;">H:18° L:9°</div>
-
-          <!-- Hourly Forecast Card -->
-          <div
-            style="margin: 30px 16px 15px; background: rgba(0,80,170,0.4); backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; text-align:left;">
-            <div
-              style="font-size:14px; font-weight:500; line-height:1.4; margin-bottom:15px; padding-bottom:12px; border-bottom: 1px solid rgba(255,255,255,0.2);">
-              Partly cloudy conditions expected around 17:00. Wind gusts are up to 15 km/h.
-            </div>
-            <div style="display:flex; justify-content:space-between; overflow-x:auto; gap:20px; padding-bottom:5px;">
-              <div style="text-align:center; min-width:40px;">
-                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Now</div>
-                <div style="font-size:22px; margin-bottom:8px;">☁️</div>
-                <div style="font-size:18px; font-weight:700;">17°</div>
-              </div>
-              <div style="text-align:center; min-width:40px;">
-                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">15</div>
-                <div style="font-size:22px; margin-bottom:8px;">☁️</div>
-                <div style="font-size:18px; font-weight:700;">17°</div>
-              </div>
-              <div style="text-align:center; min-width:40px;">
-                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">16</div>
-                <div style="font-size:22px; margin-bottom:8px;">☁️</div>
-                <div style="font-size:18px; font-weight:700;">17°</div>
-              </div>
-              <div style="text-align:center; min-width:40px;">
-                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">17</div>
-                <div style="font-size:22px; margin-bottom:8px;">⛅</div>
-                <div style="font-size:18px; font-weight:700;">18°</div>
-              </div>
-              <div style="text-align:center; min-width:40px;">
-                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">18</div>
-                <div style="font-size:22px; margin-bottom:8px;">⛅</div>
-                <div style="font-size:18px; font-weight:700;">18°</div>
-              </div>
-              <div style="text-align:center; min-width:40px;">
-                <div style="font-size:13px; font-weight:700; margin-bottom:8px;">19</div>
-                <div style="font-size:22px; margin-bottom:8px;">☀️</div>
-                <div style="font-size:18px; font-weight:700;">17°</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 10-Day Forecast Card -->
-          <div
-            style="margin: 0 16px 100px; background: rgba(0,80,170,0.4); backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; text-align:left;">
-            <div
-              style="font-size:12px; font-weight:700; color:rgba(255,255,255,0.6); margin-bottom:15px; display:flex; align-items:center; gap:6px;">
-              <span>📅</span> 10-DAY FORECAST
-            </div>
-            <div style="display:flex; flex-direction:column; gap:15px;">
-              <div
-                style="display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-                <div style="width:60px; font-size:18px; font-weight:600;">Today</div>
-                <div style="font-size:22px;">☀️</div>
-                <div style="flex:1; display:flex; align-items:center; gap:10px; padding: 0 20px;">
-                  <span
-                    style="font-size:18px; font-weight:600; color:rgba(255,255,255,0.6); width:30px; text-align:right;">9°</span>
-                  <div
-                    style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; position:relative;">
-                    <div
-                      style="position:absolute; left:20%; right:30%; top:0; bottom:0; background:linear-gradient(90deg, #4cd964, #ffcc00); border-radius:2px;">
-                    </div>
-                  </div>
-                  <span style="font-size:18px; font-weight:600; width:30px;">18°</span>
-                </div>
-              </div>
-              <div
-                style="display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-                <div style="width:60px; font-size:18px; font-weight:600;">Fri</div>
-                <div style="font-size:22px;">☀️</div>
-                <div style="flex:1; display:flex; align-items:center; gap:10px; padding: 0 20px;">
-                  <span
-                    style="font-size:18px; font-weight:600; color:rgba(255,255,255,0.6); width:30px; text-align:right;">8°</span>
-                  <div
-                    style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; position:relative;">
-                    <div
-                      style="position:absolute; left:10%; right:10%; top:0; bottom:0; background:linear-gradient(90deg, #ffcc00, #ff9500); border-radius:2px;">
-                    </div>
-                  </div>
-                  <span style="font-size:18px; font-weight:600; width:30px;">23°</span>
-                </div>
-              </div>
-              <div style="display:flex; align-items:center; justify-content:space-between;">
-                <div style="width:60px;">
-                  <div style="font-size:18px; font-weight:600;">Sat</div>
-                  <div style="font-size:11px; font-weight:700; color:#40e0d0; margin-top:-2px;">65%</div>
-                </div>
-                <div style="font-size:22px;">🌦️</div>
-                <div style="flex:1; display:flex; align-items:center; gap:10px; padding: 0 20px;">
-                  <span
-                    style="font-size:18px; font-weight:600; color:rgba(255,255,255,0.6); width:30px; text-align:right;">12°</span>
-                  <div
-                    style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; position:relative;">
-                    <div
-                      style="position:absolute; left:30%; right:5%; top:0; bottom:0; background:linear-gradient(90deg, #ff9500, #ff3b30); border-radius:2px;">
-                    </div>
-                  </div>
-                  <span style="font-size:18px; font-weight:600; width:30px;">25°</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Weather Footer -->
-        <div
-          style="padding: 15px 20px 40px; display:flex; justify-content:space-between; align-items:center; background:rgba(0,80,170,0.5); backdrop-filter: blur(15px);">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
-            <line x1="8" y1="2" x2="8" y2="18" />
-            <line x1="16" y1="6" x2="16" y2="22" />
+    <!-- MESSAGES OVERLAY -->
+    <div class="app-overlay" id="app-messages" style="background:#fff; flex-direction:column;">
+      <div class="aa-header">
+        <button class="aa-pill-btn" onclick="closeApp()">Back</button>
+        <button class="aa-circle-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="6" y1="12" x2="18" y2="12" />
+            <line x1="8" y1="17" x2="16" y2="17" />
           </svg>
-          <div style="display:flex; gap:8px;">
-            <div style="width:6px; height:6px; background:rgba(255,255,255,0.3); border-radius:50%;"></div>
-            <div style="width:6px; height:6px; background:#fff; border-radius:50%;"></div>
-            <div style="width:6px; height:6px; background:rgba(255,255,255,0.3); border-radius:50%;"></div>
-          </div>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </div>
-      </div>
-
-      <!-- SAFARI OVERLAY -->
-      <div class="app-overlay" id="app-safari"
-        style="background: linear-gradient(135deg, #a4b2c6, #7a8ba3); flex-direction:column; padding-top: 0; color:#fff;">
-        <div style="flex:1; overflow-y:auto; padding: 60px 16px 120px;">
-          <button onclick="closeApp()"
-            style="position:absolute; top:50px; left:16px; background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:12px; padding:4px 8px; font-size:12px; z-index:100;">Back</button>
-
-          <!-- Privacy Report -->
-          <h2 style="font-size:24px; font-weight:800; margin-bottom:12px;">Privacy Report</h2>
-          <div
-            style="background:rgba(255,255,255,0.85); color:#000; border-radius:20px; padding:20px; display:flex; align-items:center; gap:15px; margin-bottom:30px;">
-            <div
-              style="background:#000; color:#fff; padding:10px; border-radius:10px; display:flex; align-items:center; gap:4px; font-weight:700;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-              </svg>
-              48
-            </div>
-            <div style="font-size:14px; font-weight:500; line-height:1.4;">In the last seven days, Safari has prevented
-              48 trackers from profiling you.</div>
-          </div>
-
-          <!-- Suggestions -->
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <h2 style="font-size:24px; font-weight:800; margin:0;">Suggestions</h2>
-            <span style="color:#fff; opacity:0.8; font-weight:600;">Show All ></span>
-          </div>
-          <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-bottom:30px;">
-            <!-- Levski -->
-            <div
-              style="background:#003a70; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
-              <div
-                style="width:100%; height:60px; background:rgba(0,0,0,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:30px;">
-                ⚽</div>
-              <div>
-                <div style="font-size:14px; font-weight:700; margin-bottom:2px;">ПФК Левски Co...</div>
-                <div style="font-size:12px; opacity:0.6;">levski.bg</div>
-                <div style="font-size:11px; opacity:0.4; margin-top:10px;">Last week</div>
-              </div>
-            </div>
-            <!-- FMI -->
-            <div
-              style="background:#00548b; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
-              <div
-                style="width:100%; height:60px; background:rgba(255,255,255,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:30px;">
-                📁</div>
-              <div>
-                <div style="font-size:14px; font-weight:700; margin-bottom:2px;">Public file share...</div>
-                <div style="font-size:12px; opacity:0.6;">fmi.uni-sofia.bg</div>
-                <div style="font-size:11px; opacity:0.4; margin-top:10px;">Today</div>
-              </div>
-            </div>
-            <!-- FitGirl -->
-            <div
-              style="background:#2d1f1f; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
-              <div
-                style="width:100%; height:60px; background:rgba(255,255,255,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:30px;">
-                🎮</div>
-              <div>
-                <div style="font-size:14px; font-weight:700; margin-bottom:2px;">Football Manage...</div>
-                <div style="font-size:12px; opacity:0.6;">fitgirl-repacks.site</div>
-                <div style="font-size:11px; opacity:0.4; margin-top:10px;">Yesterday</div>
-              </div>
-            </div>
-            <!-- NRA -->
-            <div
-              style="background:#fff; color:#000; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
-              <div
-                style="width:100%; height:60px; background:#f2f2f7; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#0050aa; font-weight:900; font-size:30px;">
-                ▼</div>
-              <div>
-                <div style="font-size:14px; font-weight:700; margin-bottom:2px;">Портал за еле...</div>
-                <div style="font-size:12px; opacity:0.6;">portal.nra.bg</div>
-                <div style="font-size:11px; opacity:0.4; margin-top:10px;">Last week</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Recently Closed -->
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <h2 style="font-size:24px; font-weight:800; margin:0;">Recently Closed Tabs</h2>
-            <div style="display:flex; gap:10px; opacity:0.8; font-weight:600; font-size:14px;">
-              <span>Clear All</span>
-              <span>Show Less v</span>
-            </div>
-          </div>
-          <div
-            style="background:rgba(255,255,255,0.3); border-radius:30px; padding:12px 20px; font-size:14px; font-weight:600;">
-            Temu | Explore the Latest Clothing, Beau...
-          </div>
-        </div>
-
-        <!-- Safari Footer Search Bar -->
-        <div
-          style="position:absolute; bottom:0; left:0; width:100%; padding: 10px 16px 40px; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); display:flex; align-items:center; gap:12px; z-index:20;">
-          <div
-            style="width:50px; height:50px; background:rgba(255,255,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </div>
-          <div
-            style="flex:1; background:rgba(255,255,255,0.3); border-radius:25px; height:50px; display:flex; align-items:center; padding: 0 16px; gap:10px; color:#fff;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <span style="font-weight:600; opacity:0.7;">Search or enter website</span>
-            <div style="flex:1;"></div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" y1="19" x2="12" y2="23" />
-              <line x1="8" y1="23" x2="16" y2="23" />
-            </svg>
-          </div>
-          <div
-            style="width:50px; height:50px; background:rgba(255,255,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="1" />
-              <circle cx="19" cy="12" r="1" />
-              <circle cx="5" cy="12" r="1" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- FACEBOOK OVERLAY -->
-      <div class="app-overlay" id="app-facebook" style="background:#f0f2f5; flex-direction:column; padding-top: 0;">
-        <!-- Header -->
-        <div
-          style="background:#fff; padding: 50px 16px 12px; border-bottom:1px solid #ddd; display:flex; align-items:center; justify-content:space-between;">
-          <button onclick="closeApp()"
-            style="background:#f0f2f5; border:none; border-radius:12px; padding:8px 16px; font-weight:700; color:#050505;">Back</button>
-          <span style="color:#1877f2; font-size:28px; font-weight:900; letter-spacing:-1px;">facebook</span>
-          <div style="display:flex; gap:10px;">
-            <div
-              style="width:36px; height:36px; background:#f0f2f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
-              ➕</div>
-            <div
-              style="width:36px; height:36px; background:#f0f2f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
-              🔍</div>
-            <div
-              style="width:36px; height:36px; background:#f0f2f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
-              💬</div>
-          </div>
-        </div>
-
-        <div class="overlay-body" style="padding:0; background:#f0f2f5;">
-          <!-- Status Bar -->
-          <div
-            style="background:#fff; padding:12px 16px; display:flex; align-items:center; gap:12px; margin-bottom:10px;">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100"
-              style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
-            <div
-              style="flex:1; background:#f0f2f5; border-radius:20px; padding:10px 16px; color:#65676b; font-size:15px;">
-              What's on your mind?</div>
-            <div style="color:#45bd62; font-size:20px;">🖼️</div>
-          </div>
-
-          <!-- Feed -->
-          <div style="display:flex; flex-direction:column; gap:10px; padding-bottom:100px;">
-            <!-- Post 1 -->
-            <div style="background:#fff; padding:12px 0;">
-              <div style="padding:0 16px 12px; display:flex; align-items:center; gap:10px;">
-                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=100"
-                  style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
-                <div>
-                  <div style="font-weight:700; font-size:16px;">Мария Петрова</div>
-                  <div style="font-size:13px; color:#65676b;">2 hours ago · 👥</div>
-                </div>
-              </div>
-              <div style="padding:0 16px 12px; font-size:15px; line-height:1.4;">Прекрасен ден в градината днес! Цветята
-                най-накрая разцъфнаха. 🌸✨</div>
-              <img src="https://images.unsplash.com/photo-1558905619-171547446722?w=800"
-                style="width:100%; max-height:400px; object-fit:cover;">
-              <div
-                style="padding:10px 16px; border-bottom:1px solid #f0f2f5; display:flex; justify-content:space-between; color:#65676b; font-size:13px;">
-                <span>❤️👍 42</span>
-                <span>8 comments</span>
-              </div>
-              <div style="display:flex; padding:4px 0;">
-                <button
-                  style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">👍
-                  Like</button>
-                <button
-                  style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">💬
-                  Comment</button>
-                <button
-                  style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">⤴️
-                  Share</button>
-              </div>
-            </div>
-
-            <!-- Post 2 -->
-            <div style="background:#fff; padding:12px 0;">
-              <div style="padding:0 16px 12px; display:flex; align-items:center; gap:10px;">
-                <img src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=100"
-                  style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
-                <div>
-                  <div style="font-weight:700; font-size:16px;">Георги Иванов</div>
-                  <div style="font-size:13px; color:#65676b;">Yesterday at 18:45 · 👥</div>
-                </div>
-              </div>
-              <div style="padding:0 16px 12px; font-size:15px; line-height:1.4;">Малко спомени от последната ни разходка
-                в планината. Беше незабравимо! ⛰️🥾</div>
-              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800"
-                style="width:100%; max-height:400px; object-fit:cover;">
-              <div
-                style="padding:10px 16px; border-bottom:1px solid #f0f2f5; display:flex; justify-content:space-between; color:#65676b; font-size:13px;">
-                <span>❤️ 156</span>
-                <span>24 comments</span>
-              </div>
-              <div style="display:flex; padding:4px 0;">
-                <button
-                  style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">👍
-                  Like</button>
-                <button
-                  style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">💬
-                  Comment</button>
-                <button
-                  style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">⤴️
-                  Share</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer Navigation -->
-        <div
-          style="position:absolute; bottom:0; left:0; width:100%; background:#fff; border-top:1px solid #ddd; padding:10px 16px 35px; display:flex; justify-content:space-around; align-items:center; z-index:20;">
-          <div style="text-align:center; color:#1877f2;">
-            <div style="font-size:24px;">🏠</div>
-            <div style="font-size:10px; font-weight:700;">Home</div>
-          </div>
-          <div style="text-align:center; color:#65676b;">
-            <div style="font-size:24px;">👥</div>
-            <div style="font-size:10px; font-weight:700;">Friends</div>
-          </div>
-          <div style="text-align:center; color:#65676b;">
-            <div style="font-size:24px;">📺</div>
-            <div style="font-size:10px; font-weight:700;">Video</div>
-          </div>
-          <div style="text-align:center; color:#65676b;">
-            <div style="font-size:24px;">🔔</div>
-            <div style="font-size:10px; font-weight:700;">Alerts</div>
-          </div>
-          <div style="text-align:center; color:#65676b;">
-            <div style="font-size:24px;">☰</div>
-            <div style="font-size:10px; font-weight:700;">Menu</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NEWS OVERLAY -->
-      <div class="app-overlay" id="app-news">
-        <div class="overlay-header">
-          <button class="back-btn" onclick="closeApp()">‹ Назад</button>
-          <span class="overlay-title">Новини</span>
-        </div>
-        <div class="overlay-body" style="padding:0;">
-          <div class="news-featured">
-            <div class="news-featured-img">🌤️</div>
-            <div class="news-featured-body">
-              <div
-                style="font-size:11px;font-weight:700;color:#ff3b30;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px;">
-                ВРЕМЕТО</div>
-              <div style="font-size:17px;font-weight:700;color:#000;line-height:1.3;">Слънчев ден в цялата страна.
-                Температури до 26°C.</div>
-              <div style="font-size:13px;color:#8e8e93;margin-top:6px;">Днес, 10:30</div>
-            </div>
-          </div>
-          <div style="background:#fff;border-radius:12px;margin:0 16px;overflow:hidden;">
-            <div class="news-item"><span class="news-emoji">🏥</span>
-              <div>
-                <div class="news-tag">Здраве</div>
-                <div class="news-title">Ваксинацията срещу грип започна. Безплатна за пенсионери.</div>
-                <div class="news-time">Днес, 09:15</div>
-              </div>
-            </div>
-            <div class="news-item"><span class="news-emoji">⚽</span>
-              <div>
-                <div class="news-tag">Спорт</div>
-                <div class="news-title">Левски с победа 2:1 в UEFA конференция.</div>
-                <div class="news-time">Вчера, 22:00</div>
-              </div>
-            </div>
-            <div class="news-item" style="border-bottom:none;"><span class="news-emoji">🎭</span>
-              <div>
-                <div class="news-tag">Култура</div>
-                <div class="news-title">Народният театър открива нов сезон с постановка на Вазов.</div>
-                <div class="news-time">Вчера, 18:45</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- HOME INDICATOR -->
-      <div class="home-indicator-area" onclick="closeApp()">
-        <div class="home-indicator"></div>
-      </div>
-
-    </div><!-- /phone-screen -->
-  </div><!-- /phone-frame -->
-
-  <script>
-    // Clock
-    function updateClock() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = h + ':' + m;
-      const days = ['Неделя', 'Понеделник', 'Вторник', 'Сряда', 'Четвъртък', 'Петък', 'Събота'];
-      const months = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'];
-      document.getElementById('date').textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()];
-    }
-    updateClock();
-    setInterval(updateClock, 30000);
-
-    // App nav
-    let cameraStream = null;
-
-    async function startCamera() {
-      const video = document.getElementById('cameraVideo');
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("Твоят браузър не поддържа достъп до камера в този режим. Пробвай да отвориш файла през локален сървър (http) вместо директно (file://).");
-        return;
-      }
-      try {
-        cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
-        if (video) video.srcObject = cameraStream;
-      } catch (err) {
-        console.error("Error accessing camera:", err);
-        if (err.name === 'NotAllowedError') {
-          alert("Достъпът до камерата беше отказан. Моля, провери настройките на браузъра.");
-        } else if (err.name === 'NotFoundError') {
-          alert("Не е намерена камера на това устройство.");
-        } else {
-          alert("Грешка при стартиране на камерата: " + err.message);
-        }
-      }
-    }
-
-    function stopCamera() {
-      if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
-        cameraStream = null;
-      }
-      const video = document.getElementById('cameraVideo');
-      if (video) video.srcObject = null;
-    }
-
-    function openApp(name) {
-      document.querySelectorAll('.app-overlay').forEach(el => el.classList.remove('active'));
-      const el = document.getElementById('app-' + name);
-      if (el) el.classList.add('active');
-      if (name === 'phone') { renderAACalls(); switchAAPhoneTab('calls'); }
-      if (name === 'messages') { renderAAMessages(); }
-      if (name === 'camera') { startCamera(); }
-      if (name === 'photos') { renderPhotos(); }
-    }
-
-    const photosData = [
-      { url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400', video: '0:09' },
-      { url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400', video: '0:06' },
-      { url: 'https://images.unsplash.com/photo-1490750967868-88aa354d2086?w=400' },
-      { url: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400' },
-      { url: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400' },
-      { url: 'https://images.unsplash.com/photo-1433086566608-57141f1ca995?w=400' },
-      { url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400' },
-      { url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400' },
-      { url: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400' },
-      { url: 'https://images.unsplash.com/photo-1475924156735-51148b510e5a?w=400' },
-      { url: 'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=400' },
-      { url: 'https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=400' }
-    ];
-
-    function renderPhotos() {
-      const grid = document.getElementById('photoGrid');
-      grid.innerHTML = photosData.map(p => `
-        <div onclick="openPhoto('${p.url}')" style="aspect-ratio: 1/1; background: url('${p.url}') center center / cover; position: relative; cursor: pointer;">
-          ${p.video ? `<span style="position:absolute; bottom:4px; right:4px; color:#fff; font-size:11px; font-weight:700; background:rgba(0,0,0,0.4); padding: 1px 4px; border-radius:4px;">${p.video}</span>` : ''}
-        </div>
-      `).join('');
-    }
-
-    function openPhoto(url) {
-      document.getElementById('fullPhotoImg').src = url;
-      document.getElementById('app-full-photo').classList.add('active');
-    }
-    function closeApp() {
-      document.querySelectorAll('.app-overlay').forEach(el => el.classList.remove('active'));
-      stopCamera();
-    }
-
-    // Calculator logic
-    let calcValue = '0';
-    let calcOp = null;
-    let calcPrev = null;
-    let calcNewNum = true;
-
-    function updateCalcDisplay() {
-      const display = document.getElementById('calcDisplay');
-      let [intPart, decPart] = calcValue.split('.');
-
-      if (intPart === 'Error' || intPart === 'NaN' || intPart === 'Infinity') {
-        display.innerText = 'Грешка';
-        return;
-      }
-
-      let isNeg = intPart.startsWith('-');
-      if (isNeg) intPart = intPart.substring(1);
-
-      let formattedInt = '';
-      for (let i = 0; i < intPart.length; i++) {
-        if (i > 0 && (intPart.length - i) % 3 === 0) formattedInt += ' ';
-        formattedInt += intPart[i];
-      }
-      if (isNeg) formattedInt = '-' + formattedInt;
-
-      let finalStr = decPart !== undefined ? formattedInt + ',' + decPart : formattedInt;
-
-      if (finalStr.length > 8) {
-        display.style.fontSize = '55px';
-      } else if (finalStr.length > 6) {
-        display.style.fontSize = '70px';
-      } else {
-        display.style.fontSize = '86px';
-      }
-
-      display.innerText = finalStr;
-
-      const acBtn = document.getElementById('calc-ac-text');
-      if (acBtn) acBtn.innerText = (calcValue !== '0' || calcPrev !== null) ? 'C' : 'AC';
-
-      ['add', 'sub', 'mul', 'div'].forEach(op => {
-        let el = document.getElementById('calc-op-' + op);
-        if (el) el.classList.remove('active-op');
-      });
-      if (calcOp && calcNewNum) {
-        if (calcOp === '+') document.getElementById('calc-op-add').classList.add('active-op');
-        if (calcOp === '-') document.getElementById('calc-op-sub').classList.add('active-op');
-        if (calcOp === '*') document.getElementById('calc-op-mul').classList.add('active-op');
-        if (calcOp === '/') document.getElementById('calc-op-div').classList.add('active-op');
-      }
-    }
-
-    function calcAction(type, val) {
-      if (calcValue === 'Error' || calcValue === 'Infinity' || calcValue === 'NaN') {
-        if (type !== 'clear') return;
-      }
-
-      if (type === 'num') {
-        if (calcNewNum) {
-          calcValue = val === '.' ? '0.' : val;
-          calcNewNum = false;
-        } else {
-          if (calcValue.replace('.', '').length < 9) {
-            calcValue = calcValue === '0' && val !== '.' ? val : calcValue + val;
-          }
-        }
-      } else if (type === 'clear') {
-        if (calcValue !== '0' && !calcNewNum) {
-          calcValue = '0';
-        } else {
-          calcValue = '0'; calcOp = null; calcPrev = null; calcNewNum = true;
-        }
-      } else if (type === 'del') {
-        if (!calcNewNum) {
-          calcValue = calcValue.length > 1 ? calcValue.slice(0, -1) : '0';
-          if (calcValue === '-' || calcValue === '') calcValue = '0';
-        }
-      } else if (type === 'op') {
-        if (!calcNewNum && calcOp && calcPrev !== null) calcAction('calc');
-        calcOp = val; calcPrev = calcValue; calcNewNum = true;
-      } else if (type === 'calc') {
-        if (calcOp && calcPrev !== null) {
-          let a = parseFloat(calcPrev);
-          let b = parseFloat(calcValue);
-          let res = 0;
-          if (calcOp === '+') res = a + b;
-          if (calcOp === '-') res = a - b;
-          if (calcOp === '*') res = a * b;
-          if (calcOp === '/') {
-            if (b === 0) { calcValue = 'Error'; updateCalcDisplay(); return; }
-            res = a / b;
-          }
-          res = Math.round(res * 100000000) / 100000000;
-          calcValue = res.toString();
-          calcOp = null; calcPrev = null; calcNewNum = true;
-        }
-      } else if (type === 'toggle') {
-        if (calcValue !== '0') calcValue = calcValue.startsWith('-') ? calcValue.substring(1) : '-' + calcValue;
-      } else if (type === 'percent') {
-        let num = parseFloat(calcValue);
-        if (calcOp && calcPrev !== null && (calcOp === '+' || calcOp === '-')) {
-          num = parseFloat(calcPrev) * (num / 100);
-        } else {
-          num = num / 100;
-        }
-        calcValue = (Math.round(num * 100000000) / 100000000).toString();
-        calcNewNum = true;
-      }
-      updateCalcDisplay();
-    }
-
-
-    // Assistive Access Phone Calls
-    let aaCallHistory = [
-      { name: 'sashko', type: 'Instagram Audio', dir: 'in', missed: true, time: '13:22', avatar: 'default', initial: '' },
-      { name: 'Даниел Василев', type: 'mobile (2)', dir: 'out', missed: false, time: '12:09', avatar: 'default', initial: '' },
-      { name: 'Даниел Василев', type: 'mobile', dir: 'in', missed: true, time: '10:41', avatar: 'default', initial: '' },
-      { name: 'Даниел Василев', type: 'mobile', dir: 'in', missed: false, time: '10:28', avatar: 'default', initial: '' },
-      { name: 'Bojidar Petrov', type: 'Instagram Audio', dir: 'in', missed: false, time: 'Yesterday', avatar: 'default', initial: '' },
-      { name: 'Bela', type: 'mobile', dir: 'in', missed: false, time: 'Yesterday', avatar: 'purple', initial: 'B' },
-      { name: 'Даниел Василев', type: 'mobile (3)', dir: 'in', missed: false, time: 'Yesterday', avatar: 'default', initial: '' },
-    ];
-
-    function renderAACalls() {
-      const list = document.getElementById('aaCallList');
-      if (!list) return;
-      list.innerHTML = aaCallHistory.map(c => {
-        let arrow = '';
-        if (c.dir === 'in') {
-          arrow = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;margin-top:2px;"><line x1="17" y1="7" x2="7" y2="17"/><polyline points="17 17 7 17 7 7"/></svg>';
-        } else {
-          arrow = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;margin-top:2px;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
-        }
-
-        let avatarContent = '';
-        if (c.avatar === 'purple') avatarContent = c.initial;
-        else avatarContent = '<svg viewBox="0 0 24 24" width="36" height="36" fill="#fff"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
-
-        return `
-      <div class="aa-call-item">
-        <div class="aa-avatar ${c.avatar}">${avatarContent}</div>
-        <div class="aa-call-info">
-          <div class="aa-call-name ${c.missed ? 'missed' : ''}">${c.name}</div>
-          <div class="aa-call-sub">${arrow}${c.type}</div>
-        </div>
-        <div class="aa-call-time">${c.time}</div>
-        <button class="aa-call-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
         </button>
       </div>
-    `;
-      }).join('');
-    }
-    renderAACalls();
+      <h1 class="aa-large-title">Messages</h1>
 
-    function switchAAPhoneTab(tab) {
-      const callsTab = document.getElementById('aaTabCalls');
-      const keypadTab = document.getElementById('aaTabKeypad');
-      if (callsTab) callsTab.style.display = tab === 'calls' ? 'flex' : 'none';
-      if (keypadTab) keypadTab.style.display = tab === 'keypad' ? 'flex' : 'none';
+      <div class="aa-msg-list" id="aaMsgList">
+        <!-- JS will populate -->
+      </div>
 
-      document.getElementById('aaNavCalls').classList.toggle('active', tab === 'calls');
-      document.getElementById('aaNavKeypad').classList.toggle('active', tab === 'keypad');
-    }
+      <div class="aa-msg-bottom-nav">
+        <div class="aa-msg-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"
+            stroke-linecap="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" placeholder="Search" readonly>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"
+            stroke-linecap="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" y1="19" x2="12" y2="23" />
+            <line x1="8" y1="23" x2="16" y2="23" />
+          </svg>
+        </div>
+        <button class="aa-msg-compose">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          </svg>
+        </button>
+      </div>
+    </div>
 
-    let aaDialNumber = '';
-    function updateAADialDisplay() {
-      document.getElementById('aaDialDisplay').innerText = aaDialNumber;
-      document.getElementById('aaDialDelBtn').style.display = aaDialNumber.length > 0 ? 'block' : 'none';
-    }
-    function aaDialPress(n) {
-      if (aaDialNumber.length < 15) { aaDialNumber += n; updateAADialDisplay(); }
-    }
-    function aaDialDel() {
-      aaDialNumber = aaDialNumber.slice(0, -1);
-      updateAADialDisplay();
-    }
-    function aaDialCall() {
-      if (!aaDialNumber) return;
-      alert('Позвъняване към: ' + aaDialNumber);
-
-      const now = new Date();
-      const t = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-      aaCallHistory.unshift({ name: aaDialNumber, type: 'mobile', dir: 'out', missed: false, time: t, avatar: 'default', initial: '' });
-      renderAACalls();
-
-      aaDialNumber = '';
-      updateAADialDisplay();
-      switchAAPhoneTab('calls');
-    }
-
-    // Meds
-    function toggleMed(el) {
-      el.querySelector('.med-check').classList.toggle('done');
-    }
-
-    // Assistive Access Messages Data
-    let aaMessagesData = [
-      { name: 'Vivacom', time: '13:30', preview: 'Здравейте, плащането на сума\n20.45 € | 40.0 лв. по месечна факm...', avatar: 'default' },
-      { name: '+359 87 123', time: 'Saturday', preview: 'Здравейте, имате нова фактура\nна стойност 20.45€ | 40лв. с ДДС...', avatar: 'default' },
-      { name: 'Искрен & Гошо Гео...', time: '30.04.26', preview: 'хахахах', avatar: 'photo1' },
-      { name: 'VIVACOM', time: '29.04.26', preview: '<#> 9748\n45cJmdt3WYv', avatar: 'default' },
-      { name: 'MVnR', time: '21.04.26', preview: 'При кризисни ситуации в чужбина\nсе свържете с МВнР на +359 2 9...', avatar: 'default' },
-      { name: 'eDreams', time: '9.04.26', preview: 'Check the confirmation of your\nbooking on our app. Download it fro...', avatar: 'default' },
-
-    ];
-
-    function renderAAMessages() {
-      const list = document.getElementById('aaMsgList');
-      if (!list) return;
-      list.innerHTML = aaMessagesData.map((m, i) => {
-        let avatarContent = '';
-        if (m.avatar === 'default') {
-          avatarContent = '<svg viewBox="0 0 24 24" width="36" height="36" fill="#fff"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
-        } else {
-          avatarContent = '<div style="width:100%;height:100%;background:#e5e5ea;display:flex;align-items:center;justify-content:center;color:#000;font-size:18px;">👥</div>';
-        }
-
-        return `
-      <div class="aa-msg-item" onclick="openChat(${i})">
-        <div class="aa-msg-avatar ${m.avatar}">${avatarContent}</div>
-        <div class="aa-msg-info">
-          <div class="aa-msg-top">
-            <div class="aa-msg-name">${m.name}</div>
-            <div class="aa-msg-time-chevron">
-              <span class="aa-msg-time">${m.time}</span>
-              <span class="aa-msg-chevron">›</span>
-            </div>
+    <!-- CHAT OVERLAY -->
+    <div class="app-overlay" id="app-chat" style="flex-direction:column;background:#fff;z-index:60;">
+      <div class="aa-header" style="border-bottom: 1px solid #e5e5ea; padding: 8px 16px;">
+        <button class="aa-pill-btn" onclick="closeChat()"
+          style="background:transparent; color:#007aff; padding:0; display:flex; align-items:center; font-size:17px; font-weight:400; width:80px; justify-content:flex-start;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;">
+            <polyline points="15 18 9 12 15 6" />
+          </svg> Back
+        </button>
+        <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
+          <div id="chatAvatarNode"
+            style="width:36px; height:36px; border-radius:50%; background:#8e8e93; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; overflow:hidden;">
           </div>
-          <div class="aa-msg-preview">${m.preview.replace(/\n/g, '<br>')}</div>
+          <div class="aa-title" id="chatTitle"
+            style="font-size:12px; font-weight:500; margin-top:2px; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            Name</div>
+        </div>
+        <div style="width:80px;"></div>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-row" style="background:#f9f9f9; padding: 12px 16px 30px; border-top: 1px solid #e5e5ea;">
+        <div
+          style="display:flex; align-items:center; background:#fff; border:1px solid #c7c7cc; border-radius:24px; padding:4px 4px 4px 16px; flex:1;">
+          <input id="chatInput" type="text" placeholder="iMessage"
+            style="border:none; padding:8px 0; font-size:17px; outline:none; flex:1; background:transparent;" />
+          <button onclick="sendChatMsg()"
+            style="background:#00df59; color:#fff; border:none; border-radius:50%; margin-left:8px; width:30px; height:30px; min-width:30px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5" />
+              <polyline points="5 12 12 5 19 12" />
+            </svg>
+          </button>
         </div>
       </div>
-    `;
-      }).join('');
-    }
-    renderAAMessages();
+    </div>
 
-    const contacts = [
-      {
-        name: 'Vivacom', avatar: '💬', msgs: [
-          { out: false, text: 'Уважаеми клиенти, бихме искали да ви уведомим за промяна в Общите условия.', time: '09:00' },
-          { out: true, text: 'Здравейте, какви са тези промени?', time: '09:05' },
-          { out: false, text: 'Здравейте! Промените касаят индексацията на таксите с оглед на инфлацията.', time: '09:12' },
-          { out: true, text: 'Това означава ли, че сметката ми ще се увеличи?', time: '09:15' },
-          { out: false, text: 'Увеличението ще бъде минимално, средно с около 1-2 лева на месец.', time: '09:18' },
-          { out: true, text: 'Мога ли да прекратя договора си без неустойки заради това?', time: '09:20' },
-          { out: false, text: 'Да, имате право да прекратите договора без неустойки в срок до един месец след влизане на промените.', time: '09:25' },
-          { out: true, text: 'Къде мога да прочета пълните условия?', time: '09:30' },
-          { out: false, text: 'Пълните условия са достъпни на нашия сайт www.vivacom.bg, както и във всеки наш магазин.', time: '09:32' },
-          { out: true, text: 'Добре, благодаря за информацията.', time: '09:35' },
-          { out: false, text: 'Моля! Ако имате други въпроси, ние сме насреща.', time: '09:40' },
-          { out: true, text: 'Всъщност имам още един въпрос. Интернетът ми прекъсва.', time: '10:00' },
-          { out: false, text: 'Бихте ли ми предоставили ЕГН или клиентски номер за проверка?', time: '10:05' },
-          { out: true, text: 'Да, клиентският ми номер е 123456789.', time: '10:06' },
-          { out: false, text: 'Благодаря. Проверявам статуса на вашата услуга...', time: '10:10' },
-          { out: false, text: 'Виждам, че има временни смущения в района Ви заради ремонтни дейности.', time: '10:12' },
-          { out: true, text: 'Кога ще бъде отстранен проблемът?', time: '10:15' },
-          { out: false, text: 'Колегите работят по въпроса. Очакваме възстановяване до 12:00 ч.', time: '10:20' },
-          { out: true, text: 'Разбрах. Надявам се да е по-скоро.', time: '10:25' },
-          { out: false, text: 'Извиняваме се за причиненото неудобство!', time: '10:30' },
-          { out: true, text: 'Всичко е наред, случват се такива неща.', time: '10:35' },
-          { out: false, text: 'Услугата Ви вече трябва да работи нормално. Бихте ли потвърдили?', time: '12:15' },
-          { out: true, text: 'Да, имам интернет. Благодаря!', time: '12:20' },
-          { out: false, text: 'Здравейте, плащането на сума 20.45 € | 40.0 лв. по месечна фактура е успешно.', time: '13:30' }
-        ]
-      },
-      { name: '+359 87 123', avatar: '💬', msgs: [{ out: false, text: 'Здравейте, имате нова фактура на стойност 20.45€ | 40лв. с ДДС...', time: 'Saturday' }] },
-      { name: 'Искрен & Гошо', avatar: '👥', msgs: [{ out: false, text: 'хахахах', time: '30.04.26' }] },
-      { name: 'VIVACOM', avatar: '💬', msgs: [{ out: false, text: '<#> 9748\n45cJmdt3WYv', time: '29.04.26' }] },
-      { name: 'MVnR', avatar: '💬', msgs: [{ out: false, text: 'При кризисни ситуации в чужбина се свържете с МВнР на +359 2 9...', time: '21.04.26' }] },
-      { name: 'eDreams', avatar: '💬', msgs: [{ out: false, text: 'Check the confirmation of your booking on our app.', time: '9.04.26' }] },
+    <!-- PHOTOS OVERLAY -->
+    <div class="app-overlay" id="app-photos" style="background:#000; flex-direction:column;">
+      <div class="aa-header" style="background:transparent; border-bottom: none; padding: 12px 16px;">
+        <button class="aa-pill-btn" onclick="closeApp()"
+          style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:8px 16px; border-radius:12px; font-size:17px; font-weight:600;">
+          Back
+        </button>
+        <div style="flex:1;"></div>
+        <div style="display:flex; gap:10px;">
+          <button
+            style="background:rgba(255,255,255,0.15); color:#fff; border:none; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <button
+            style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:8px 16px; border-radius:15px; font-size:15px; font-weight:600;">Select</button>
+        </div>
+      </div>
 
-    ];
-    let currentChat = 0;
+      <div class="overlay-body" style="padding: 0 4px; overflow-y: auto;">
+        <h1 style="color:#fff; font-size:34px; font-weight:900; margin: 0 12px;">Library</h1>
+        <div style="color:#8e8e93; font-size:17px; font-weight:600; margin: 0 12px 15px;">7 235 Items</div>
 
-    function openChat(idx) {
-      currentChat = idx;
-      const c = contacts[idx];
-      document.getElementById('chatTitle').textContent = c.name;
+        <div id="photoGrid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+          <!-- JS will populate -->
+        </div>
+      </div>
 
-      let avatarContent = '';
-      if (c.avatar === '💬') {
-        avatarContent = '<svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
-        document.getElementById('chatAvatarNode').style.background = 'linear-gradient(180deg, #a4b2c6, #7a8ba3)';
-      } else {
-        avatarContent = '👥';
-        document.getElementById('chatAvatarNode').style.background = '#e5e5ea';
-        document.getElementById('chatAvatarNode').style.color = '#000';
-      }
-      document.getElementById('chatAvatarNode').innerHTML = avatarContent;
+      <!-- Bottom Navigation Photos -->
+      <div
+        style="padding: 10px 16px 40px; display:flex; align-items:center; justify-content:center; gap: 40px; background:rgba(0,0,0,0.85);">
+        <div
+          style="background:rgba(255,255,255,0.1); border-radius: 35px; display:flex; align-items:center; padding: 5px;">
+          <div
+            style="background:#fff; color:#007aff; border-radius:30px; padding: 10px 25px; display:flex; flex-direction:column; align-items:center;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M3 15l4-4 4 4 5-5 4 4v2H3v-1z" fill="#007aff" />
+            </svg>
+            <span style="font-size:10px; font-weight:700; margin-top:2px;">Library</span>
+          </div>
+          <div
+            style="color:#fff; padding: 10px 25px; display:flex; flex-direction:column; align-items:center; opacity: 0.6;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
+            </svg>
+            <span style="font-size:10px; font-weight:700; margin-top:2px;">Collections</span>
+          </div>
+        </div>
+        <div
+          style="width:50px; height:50px; background:rgba(255,255,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </div>
+      </div>
+    </div>
 
-      const box = document.getElementById('chatMessages');
-      box.innerHTML = c.msgs.map((m, i) => {
-        let showTail = i === c.msgs.length - 1 || c.msgs[i + 1].out !== m.out;
-        let showTime = showTail;
-        return `<div style="display: flex; flex-direction: column; align-items: ${m.out ? 'flex-end' : 'flex-start'}; width: 100%;">
-      <div class="bubble ${m.out ? 'out' : 'in'} ${showTail ? 'tail' : ''}" style="white-space: pre-wrap;">${m.text}</div>
-      ${showTime ? `<div class="bubble-time">${m.time}</div>` : ''}
-    </div>`
-      }).join('');
-      box.scrollTop = box.scrollHeight;
-      document.getElementById('app-chat').classList.add('active');
-      document.getElementById('chatInput').value = '';
-    }
-    function closeChat() {
-      document.getElementById('app-chat').classList.remove('active');
-    }
-    function sendChatMsg() {
-      const inp = document.getElementById('chatInput');
-      const text = inp.value.trim();
-      if (!text) return;
-      const now = new Date();
-      const t = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-      contacts[currentChat].msgs.push({ out: true, text, time: t });
-      inp.value = '';
+    <!-- FULL SCREEN PHOTO VIEWER -->
+    <div class="app-overlay" id="app-full-photo" style="background:#000; z-index: 1000; flex-direction:column;">
+      <div class="aa-header" style="background:transparent; border-bottom: none; padding: 12px 16px;">
+        <button class="aa-pill-btn" onclick="document.getElementById('app-full-photo').classList.remove('active')"
+          style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:8px 16px; border-radius:12px; font-size:17px; font-weight:600;">
+          Close
+        </button>
+      </div>
+      <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:10px;">
+        <img id="fullPhotoImg" src="" style="max-width:100%; max-height:100%; border-radius:10px; object-fit:contain;">
+        <video id="fullPhotoVideo" controls style="display:none; max-width:100%; max-height:100%; border-radius:10px;"></video>
+      </div>
+      <div style="padding: 20px 20px 50px; display:flex; justify-content:space-between; align-items:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+          <polyline points="16 6 12 2 8 6" />
+          <line x1="12" y1="2" x2="12" y2="15" />
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+      </div>
+    </div>
 
-      // Also update preview in the Messages list
-      aaMessagesData[currentChat].preview = text;
-      aaMessagesData[currentChat].time = t;
-      renderAAMessages();
+    <!-- MEDS OVERLAY -->
+    <div class="app-overlay" id="app-meds">
+      <div class="overlay-header">
+        <button class="back-btn" onclick="closeApp()">‹ Назад</button>
+        <span class="overlay-title">Лекарства</span>
+      </div>
+      <div class="overlay-body" style="padding:0;">
+        <div class="ios-section-header">Днешни лекарства</div>
+        <div class="ios-list">
+          <div class="med-item" onclick="toggleMed(this)">
+            <div class="med-check">✓</div>
+            <div class="med-info">
+              <div class="med-name">Аспирин 100mg</div>
+              <div class="med-time">Сутрин · 08:00</div>
+            </div>
+          </div>
+          <div class="med-item" onclick="toggleMed(this)">
+            <div class="med-check">✓</div>
+            <div class="med-info">
+              <div class="med-name">Метформин 500mg</div>
+              <div class="med-time">На обяд · 13:00</div>
+            </div>
+          </div>
+          <div class="med-item" onclick="toggleMed(this)">
+            <div class="med-check">✓</div>
+            <div class="med-info">
+              <div class="med-name">Лизиноприл 10mg</div>
+              <div class="med-time">Вечер · 20:00</div>
+            </div>
+          </div>
+          <div class="med-item" onclick="toggleMed(this)">
+            <div class="med-check">✓</div>
+            <div class="med-info">
+              <div class="med-name">Витамин D3</div>
+              <div class="med-time">Сутрин · 08:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      openChat(currentChat);
-    }
-    document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendChatMsg(); });
-  </script>
+    <!-- CAMERA OVERLAY -->
+    <div class="app-overlay" id="app-camera" style="background:#000; flex-direction:column; padding-top: 20px;">
+      <!-- Top Exit/Back Button (Essential for Simulator) -->
+      <div style="position: absolute; top: 50px; left: 20px; z-index: 100;">
+        <button onclick="closeApp()"
+          style="background:rgba(0,0,0,0.5); color:#fff; border:none; padding:10px 20px; border-radius:15px; font-size:18px; font-weight:600;">Back</button>
+      </div>
+
+      <!-- Top Right Controls -->
+      <div
+        style="position: absolute; top: 60px; right: 20px; display: flex; background: rgba(255,255,255,0.15); border-radius: 30px; padding: 6px 12px; gap: 15px; z-index: 10;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <line x1="9" y1="3" x2="9" y2="21" />
+          <line x1="15" y1="3" x2="15" y2="21" />
+          <line x1="3" y1="9" x2="21" y2="9" />
+          <line x1="3" y1="15" x2="21" y2="15" />
+        </svg>
+      </div>
+
+      <!-- Viewfinder -->
+      <div
+        style="flex: 1; position: relative; margin: 40px 0 20px; overflow: hidden; display: flex; flex-direction: column;">
+        <!-- Camera Video Stream -->
+        <div style="flex: 1; background: #1c1c1e; position: relative;">
+          <video id="cameraVideo" autoplay playsinline muted
+            style="width:100%; height:100%; object-fit:cover; transform: scaleX(-1);"></video>
+
+          <!-- Grid Lines Overlay -->
+          <div
+            style="position: absolute; top: 0; left: 33.33%; width: 1px; height: 100%; background: rgba(255,255,255,0.3); pointer-events: none;">
+          </div>
+          <div
+            style="position: absolute; top: 0; left: 66.66%; width: 1px; height: 100%; background: rgba(255,255,255,0.3); pointer-events: none;">
+          </div>
+          <div
+            style="position: absolute; top: 33.33%; left: 0; width: 100%; height: 1px; background: rgba(255,255,255,0.3); pointer-events: none;">
+          </div>
+          <div
+            style="position: absolute; top: 66.66%; left: 0; width: 100%; height: 1px; background: rgba(255,255,255,0.3); pointer-events: none;">
+          </div>
+
+          <!-- Zoom Selector Overlay -->
+          <div
+            style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 20px; color: #fff; font-size: 14px; font-weight: 600; pointer-events: none;">
+            <span>0,5</span>
+            <div
+              style="width: 32px; height: 32px; background: #ffcc00; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              1x</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shutter Button -->
+      <div style="display: flex; justify-content: center; padding: 10px 0;">
+        <div
+          style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid #fff; padding: 4px; display: flex; align-items: center; justify-content: center;">
+          <div style="width: 100%; height: 100%; background: #fff; border-radius: 50%;"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Controls -->
+      <div style="padding: 20px 20px 50px; display: flex; align-items: center; justify-content: space-between;">
+        <!-- Gallery (Black per request) -->
+        <div style="width: 48px; height: 48px; background: #000; border: 1px solid #333; border-radius: 8px;">
+        </div>
+
+        <!-- Mode Pill -->
+        <div
+          style="background: rgba(255,255,255,0.1); border-radius: 30px; display: flex; align-items: center; padding: 4px;">
+          <div style="padding: 8px 24px; color: #fff; font-size: 14px; font-weight: 700;">VIDEO</div>
+          <div
+            style="padding: 8px 24px; background: rgba(255,255,255,0.2); color: #ffcc00; border-radius: 25px; font-size: 14px; font-weight: 700;">
+            PHOTO</div>
+        </div>
+
+        <!-- Flip Button -->
+        <div
+          style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+            <path d="M20 4v5h-5" />
+            <path d="M4 20v-5h5" />
+            <path d="M20 12.8A9 9 0 0 0 4.92 7.1L4 9" />
+            <path d="M4 11.2a9 9 0 0 0 15.08 5.7L20 15" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- KAUFLAND OVERLAY -->
+    <div class="app-overlay" id="app-kaufland" style="background:#fff; flex-direction:column; padding-top: 0;">
+      <!-- Top Bar -->
+      <div
+        style="background:#e2001a; padding: 50px 16px 20px; color:#fff; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap: 10px;">
+          <button onclick="closeApp()"
+            style="background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:12px; padding:4px 8px; font-size:12px;">Back</button>
+          <span style="font-size:20px; font-weight:700;">Hello</span>
+        </div>
+        <div
+          style="background:rgba(255,255,255,0.9); border-radius:20px; display:flex; align-items:center; padding: 2px 2px 2px 10px; color:#000;">
+          <span style="font-weight:700; font-size:14px; color:#e2001a; margin-right:4px;">X</span>
+          <span style="font-weight:700; font-size:14px; margin-right:4px;">65</span>
+          <div
+            style="width:24px; height:24px; background:#ffcc00; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:900;">
+            K</div>
+        </div>
+      </div>
+
+      <div class="overlay-body" style="background:#f2f2f7; padding:0;">
+        <!-- Category Circles -->
+        <div
+          style="background:linear-gradient(180deg, #e2001a, #f2f2f7); padding: 10px 0 20px; display:flex; overflow-x:auto; gap:12px; padding-left:16px;">
+          <!-- K-Card -->
+          <div style="min-width:80px; text-align:center;">
+            <div
+              style="width:80px; height:80px; background:#fff; border-radius:50%; border:4px solid #007aff; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:40px;">
+              📱</div>
+            <div
+              style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
+              HOBO</div>
+            <div style="font-size:10px; font-weight:600; margin-top:4px;">Kaufland Card XTRA</div>
+          </div>
+          <!-- Surprise -->
+          <div style="min-width:80px; text-align:center;">
+            <div
+              style="width:80px; height:80px; background:#fff; border-radius:50%; border:4px solid #007aff; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:40px;">
+              🎁</div>
+            <div
+              style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
+              HOBO</div>
+            <div style="font-size:10px; font-weight:600; margin-top:4px;">Изненада за деня</div>
+          </div>
+          <!-- Offers -->
+          <div style="min-width:80px; text-align:center;">
+            <div
+              style="width:80px; height:80px; background:#e2001a; border-radius:50%; border:4px solid #007aff; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; font-weight:900;">
+              <div>XTRA</div>
+              <div>ОФЕРТИ</div>
+            </div>
+            <div
+              style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
+              HOBO</div>
+            <div style="font-size:10px; font-weight:600; margin-top:4px;">XTRA продукти</div>
+          </div>
+          <!-- Coupons -->
+          <div style="min-width:80px; text-align:center;">
+            <div
+              style="width:80px; height:80px; background:#e2001a; border-radius:50%; border:4px solid #007aff; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; font-weight:900;">
+              <div>XTRA</div>
+              <div>КУПОНИ</div>
+            </div>
+            <div
+              style="background:#007aff; color:#fff; font-size:10px; font-weight:900; border-radius:8px; padding:2px 6px; margin-top:-10px; position:relative;">
+              HOBO</div>
+            <div style="font-size:10px; font-weight:600; margin-top:4px;">XTRA купони</div>
+          </div>
+        </div>
+
+        <!-- Last Purchase Card -->
+        <div
+          style="margin:0 16px; background:linear-gradient(135deg, #003a70, #005aa2); border-radius:20px; padding:20px; color:#fff; position:relative;">
+          <div style="position:absolute; top:12px; right:12px; font-size:20px; opacity:0.6;">✕</div>
+          <div style="text-align:center; margin-bottom:15px;">
+            <div style="font-size:18px; font-weight:700;">Your last purchase</div>
+            <div style="font-size:13px; opacity:0.8;">from 13.05.2026</div>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:15px;">
+            <div
+              style="background:rgba(255,255,255,0.9); color:#000; padding:10px; border-radius:12px; text-align:center;">
+              <div style="font-size:16px; font-weight:700;">8,04€</div>
+              <div style="font-size:11px; opacity:0.6;">Paid</div>
+            </div>
+            <div
+              style="background:rgba(255,255,255,0.9); color:#000; padding:10px; border-radius:12px; text-align:center;">
+              <div
+                style="font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:2px;">
+                8 <span
+                  style="background:#ffcc00; color:#fff; border-radius:50%; width:14px; height:14px; font-size:9px; display:flex; align-items:center; justify-content:center;">K</span>
+              </div>
+              <div style="font-size:11px; opacity:0.6;">XTRA Points</div>
+            </div>
+            <div
+              style="background:rgba(255,255,255,0.9); color:#000; padding:10px; border-radius:12px; text-align:center;">
+              <div style="font-size:16px; font-weight:700;">1,33€</div>
+              <div style="font-size:11px; opacity:0.6;">Savings</div>
+            </div>
+          </div>
+          <button
+            style="width:100%; background:#fff; color:#003a70; border:none; padding:12px; border-radius:25px; font-size:15px; font-weight:700;">Redeem
+            points now</button>
+        </div>
+
+        <!-- Products Header -->
+        <div style="padding: 20px 16px 10px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:16px; font-weight:700;">Виж своите <span style="font-style:italic;">XTRA</span>
+            продукти за 0,01€</div>
+          <div style="color:#e2001a; font-size:14px; font-weight:700;">All ></div>
+        </div>
+        <div style="padding: 0 16px 15px; font-size:13px; color:#8e8e93; font-weight:600;">11.05. - 30.06.</div>
+
+        <!-- Product Grid -->
+        <div style="display:flex; gap:12px; padding:0 16px 100px; overflow-x:auto;">
+          <!-- Nesquik -->
+          <div
+            style="min-width:160px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="height:100px; display:flex; align-items:center; justify-content:center; font-size:40px;">
+              🍫
+            </div>
+            <div style="font-size:13px; font-weight:700; margin-top:10px;">NESQUIK Тунквана вафла с млечен крем
+            </div>
+          </div>
+          <!-- Coca Cola -->
+          <div
+            style="min-width:160px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); position:relative;">
+            <div
+              style="position:absolute; top:8px; right:8px; background:#003a70; color:#fff; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center;">
+              🔒</div>
+            <div style="height:100px; display:flex; align-items:center; justify-content:center; font-size:40px;">
+              🥤
+            </div>
+            <div style="font-size:13px; font-weight:700; margin-top:10px;">COLA Zero 1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div
+        style="position:absolute; bottom:0; left:0; width:100%; background:#fff; border-top:1px solid #e5e5ea; padding:10px 16px 30px; display:flex; justify-content:space-between; align-items:center; z-index:20;">
+        <div style="text-align:center; color:#e2001a;">
+          <div style="font-size:24px;">🏠</div>
+          <div style="font-size:10px; font-weight:700;">Home</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">%</div>
+          <div style="font-size:10px; font-weight:700;">Offers</div>
+        </div>
+        <!-- Floating K-Card -->
+        <div
+          style="background:#e2001a; color:#fff; padding:8px 16px; border-radius:12px; margin-top:-40px; box-shadow:0 4px 12px rgba(226,0,26,0.4); display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <div style="font-size:18px; font-weight:900;">[ ] Kaufland</div>
+          <div style="font-size:14px; font-weight:900; font-style:italic;">XTRA</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">X</div>
+          <div style="font-size:10px; font-weight:700;">Benefits</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">㗊</div>
+          <div style="font-size:10px; font-weight:700;">Services</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIDL PLUS OVERLAY -->
+    <div class="app-overlay" id="app-lidl" style="background:#fff; flex-direction:column; padding-top: 0;">
+      <!-- Top Location Bar -->
+      <div style="padding: 50px 16px 10px; display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div style="display:flex; align-items:center; gap:4px; font-weight:700; font-size:15px; color:#333;">
+            Русе – ул. Майор Ата... <span style="font-size:12px; opacity:0.6;">›</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; font-size:14px; color:#8e8e93; margin-top:2px;">
+            <div style="width:8px; height:8px; background:#4cd964; border-radius:50%;"></div>
+            Отворен
+          </div>
+        </div>
+        <div style="position:relative;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.5">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          <div
+            style="position:absolute; top:-4px; right:-4px; background:#e2001a; color:#fff; font-size:10px; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+            8</div>
+        </div>
+      </div>
+
+      <div class="overlay-body" style="background:#fff; padding:0;">
+        <div style="padding:0 16px 15px;">
+          <h1 style="font-size:26px; font-weight:800; color:#1a1a1a; margin: 0 0 15px;">Здравей</h1>
+          <div style="display:flex; gap:12px;">
+            <button
+              style="background:transparent; border:1px solid #e5e5ea; border-radius:20px; padding:8px 16px; display:flex; align-items:center; gap:8px; font-weight:700; color:#0050aa;">
+              <span style="font-size:16px;">🏷️</span> Партньори
+            </button>
+            <button
+              style="background:transparent; border:1px solid #e5e5ea; border-radius:20px; padding:8px 16px; display:flex; align-items:center; gap:8px; font-weight:700; color:#0050aa;">
+              <span style="font-size:16px;">🧑‍🍳</span> Готви с Lidl
+            </button>
+          </div>
+        </div>
+
+        <!-- Notification Card -->
+        <div
+          style="margin: 0 16px 20px; background:#eff6ff; border-radius:12px; padding:16px; position:relative; border:1px solid #dbeafe;">
+          <div style="position:absolute; top:12px; right:12px; font-size:20px; opacity:0.4;">✕</div>
+          <div style="display:flex; gap:12px;">
+            <div style="font-size:24px;">🔔</div>
+            <div>
+              <div style="font-weight:800; font-size:15px; color:#001a41; margin-bottom:4px;">Не пропускай нищо!
+              </div>
+              <div style="font-size:13px; color:#4a5568; line-height:1.4; margin-bottom:12px;">Получавай известия
+                за
+                оферти, важна информация за твоите покупки и още интересни неща.</div>
+              <div style="font-weight:800; font-size:14px; color:#0050aa; cursor:pointer;">Активирай известията
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Card -->
+        <div
+          style="margin: 0 16px 100px; border-radius:12px; overflow:hidden; border:1px solid #e5e5ea; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+          <div
+            style="background: linear-gradient(135deg, #001a41, #0050aa, #ff00ff); height:220px; padding:20px; color:#fff; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+            <div style="font-size:13px; font-weight:700; opacity:0.9;">Вдъхнови се от тренда</div>
+            <div style="font-size:32px; font-weight:900; margin:10px 0; letter-spacing:-1px;">PROJECT YOUTH</div>
+            <div style="font-size:12px; font-weight:600; margin-top:10px;">Пазарувай с твоята младежка карта в
+              Lidl и
+              вземи 15% отстъпка</div>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+              <div
+                style="background:#fff; color:#0050aa; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:900;">
+                LIDL</div>
+              <div
+                style="background:#e2001a; color:#fff; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:900;">
+                Postbank</div>
+            </div>
+          </div>
+          <div style="padding:16px; display:flex; justify-content:space-between; align-items:center; background:#fff;">
+            <div>
+              <div style="font-weight:700; font-size:14px;">Виж повече тук</div>
+              <div style="font-size:12px; color:#8e8e93;">postbank.bg</div>
+            </div>
+            <div style="font-size:20px; opacity:0.4;">›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Card Button -->
+      <div
+        style="position:absolute; bottom:90px; right:16px; left:16px; display:flex; justify-content:center; z-index:30; pointer-events: none;">
+        <div
+          style="pointer-events: auto; background:#0050aa; color:#fff; border-radius:40px; padding:12px 24px; display:flex; align-items:center; gap:12px; box-shadow:0 4px 15px rgba(0,80,170,0.4); width:100%;">
+          <div style="font-size:20px;">💳</div>
+          <div style="font-weight:800; font-size:15px; flex:1;">Lidl Plus карта</div>
+          <div style="font-size:18px;">⌃</div>
+        </div>
+      </div>
+
+      <!-- Lidl Footer -->
+      <div
+        style="position:absolute; bottom:0; left:0; width:100%; background:#fff; border-top:1px solid #e5e5ea; padding:10px 16px 30px; display:flex; justify-content:space-between; align-items:center; z-index:20;">
+        <div style="text-align:center; color:#0050aa;">
+          <div style="font-size:24px;">🏠</div>
+          <div style="font-size:10px; font-weight:700;">Начало</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">%</div>
+          <div style="font-size:10px; font-weight:700;">Промоции</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">🎟️</div>
+          <div style="font-size:10px; font-weight:700;">Купони</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">📰</div>
+          <div style="font-size:10px; font-weight:700;">Брошури</div>
+        </div>
+        <div style="text-align:center; color:#8e8e93;">
+          <div style="font-size:24px;">👤</div>
+          <div style="font-size:10px; font-weight:700;">Профил</div>
+        </div>
+      </div>
+      <!-- Simple Close Button for Simulator -->
+      <button onclick="closeApp()"
+        style="position:absolute; top:50px; left:16px; z-index:100; background:rgba(0,0,0,0.1); border:none; border-radius:12px; padding:4px 8px; font-size:12px;">Back</button>
+    </div>
+
+    <!-- WEATHER OVERLAY -->
+    <div class="app-overlay" id="app-weather"
+      style="background: url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=800') center center / cover; flex-direction:column; padding-top: 0; color:#fff;">
+      <div
+        style="flex:1; overflow-y:auto; padding-top: 80px; text-align:center; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+        <button onclick="closeApp()"
+          style="position:absolute; top:50px; left:16px; background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:12px; padding:4px 8px; font-size:12px; z-index:100;">Back</button>
+
+        <h1 style="font-size:34px; font-weight:400; margin:0;">Ruse</h1>
+        <div style="font-size:96px; font-weight:200; margin: -10px 0 0;">17°</div>
+        <div style="font-size:20px; font-weight:600;">Mostly Cloudy</div>
+        <div style="font-size:20px; font-weight:600; opacity:0.9;">H:18° L:9°</div>
+
+        <!-- Hourly Forecast Card -->
+        <div
+          style="margin: 30px 16px 15px; background: rgba(0,80,170,0.4); backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; text-align:left;">
+          <div
+            style="font-size:14px; font-weight:500; line-height:1.4; margin-bottom:15px; padding-bottom:12px; border-bottom: 1px solid rgba(255,255,255,0.2);">
+            Partly cloudy conditions expected around 17:00. Wind gusts are up to 15 km/h.
+          </div>
+          <div style="display:flex; justify-content:space-between; overflow-x:auto; gap:20px; padding-bottom:5px;">
+            <div style="text-align:center; min-width:40px;">
+              <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Now</div>
+              <div style="font-size:22px; margin-bottom:8px;">☁️</div>
+              <div style="font-size:18px; font-weight:700;">17°</div>
+            </div>
+            <div style="text-align:center; min-width:40px;">
+              <div style="font-size:13px; font-weight:700; margin-bottom:8px;">15</div>
+              <div style="font-size:22px; margin-bottom:8px;">☁️</div>
+              <div style="font-size:18px; font-weight:700;">17°</div>
+            </div>
+            <div style="text-align:center; min-width:40px;">
+              <div style="font-size:13px; font-weight:700; margin-bottom:8px;">16</div>
+              <div style="font-size:22px; margin-bottom:8px;">☁️</div>
+              <div style="font-size:18px; font-weight:700;">17°</div>
+            </div>
+            <div style="text-align:center; min-width:40px;">
+              <div style="font-size:13px; font-weight:700; margin-bottom:8px;">17</div>
+              <div style="font-size:22px; margin-bottom:8px;">⛅</div>
+              <div style="font-size:18px; font-weight:700;">18°</div>
+            </div>
+            <div style="text-align:center; min-width:40px;">
+              <div style="font-size:13px; font-weight:700; margin-bottom:8px;">18</div>
+              <div style="font-size:22px; margin-bottom:8px;">⛅</div>
+              <div style="font-size:18px; font-weight:700;">18°</div>
+            </div>
+            <div style="text-align:center; min-width:40px;">
+              <div style="font-size:13px; font-weight:700; margin-bottom:8px;">19</div>
+              <div style="font-size:22px; margin-bottom:8px;">☀️</div>
+              <div style="font-size:18px; font-weight:700;">17°</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10-Day Forecast Card -->
+        <div
+          style="margin: 0 16px 100px; background: rgba(0,80,170,0.4); backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; text-align:left;">
+          <div
+            style="font-size:12px; font-weight:700; color:rgba(255,255,255,0.6); margin-bottom:15px; display:flex; align-items:center; gap:6px;">
+            <span>📅</span> 10-DAY FORECAST
+          </div>
+          <div style="display:flex; flex-direction:column; gap:15px;">
+            <div
+              style="display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+              <div style="width:60px; font-size:18px; font-weight:600;">Today</div>
+              <div style="font-size:22px;">☀️</div>
+              <div style="flex:1; display:flex; align-items:center; gap:10px; padding: 0 20px;">
+                <span
+                  style="font-size:18px; font-weight:600; color:rgba(255,255,255,0.6); width:30px; text-align:right;">9°</span>
+                <div
+                  style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; position:relative;">
+                  <div
+                    style="position:absolute; left:20%; right:30%; top:0; bottom:0; background:linear-gradient(90deg, #4cd964, #ffcc00); border-radius:2px;">
+                  </div>
+                </div>
+                <span style="font-size:18px; font-weight:600; width:30px;">18°</span>
+              </div>
+            </div>
+            <div
+              style="display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+              <div style="width:60px; font-size:18px; font-weight:600;">Fri</div>
+              <div style="font-size:22px;">☀️</div>
+              <div style="flex:1; display:flex; align-items:center; gap:10px; padding: 0 20px;">
+                <span
+                  style="font-size:18px; font-weight:600; color:rgba(255,255,255,0.6); width:30px; text-align:right;">8°</span>
+                <div
+                  style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; position:relative;">
+                  <div
+                    style="position:absolute; left:10%; right:10%; top:0; bottom:0; background:linear-gradient(90deg, #ffcc00, #ff9500); border-radius:2px;">
+                  </div>
+                </div>
+                <span style="font-size:18px; font-weight:600; width:30px;">23°</span>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <div style="width:60px;">
+                <div style="font-size:18px; font-weight:600;">Sat</div>
+                <div style="font-size:11px; font-weight:700; color:#40e0d0; margin-top:-2px;">65%</div>
+              </div>
+              <div style="font-size:22px;">🌦️</div>
+              <div style="flex:1; display:flex; align-items:center; gap:10px; padding: 0 20px;">
+                <span
+                  style="font-size:18px; font-weight:600; color:rgba(255,255,255,0.6); width:30px; text-align:right;">12°</span>
+                <div
+                  style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; position:relative;">
+                  <div
+                    style="position:absolute; left:30%; right:5%; top:0; bottom:0; background:linear-gradient(90deg, #ff9500, #ff3b30); border-radius:2px;">
+                  </div>
+                </div>
+                <span style="font-size:18px; font-weight:600; width:30px;">25°</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather Footer -->
+      <div
+        style="padding: 15px 20px 40px; display:flex; justify-content:space-between; align-items:center; background:rgba(0,80,170,0.5); backdrop-filter: blur(15px);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
+          <line x1="8" y1="2" x2="8" y2="18" />
+          <line x1="16" y1="6" x2="16" y2="22" />
+        </svg>
+        <div style="display:flex; gap:8px;">
+          <div style="width:6px; height:6px; background:rgba(255,255,255,0.3); border-radius:50%;"></div>
+          <div style="width:6px; height:6px; background:#fff; border-radius:50%;"></div>
+          <div style="width:6px; height:6px; background:rgba(255,255,255,0.3); border-radius:50%;"></div>
+        </div>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- SAFARI OVERLAY -->
+    <div class="app-overlay" id="app-safari"
+      style="background: linear-gradient(135deg, #a4b2c6, #7a8ba3); flex-direction:column; padding-top: 0; color:#fff;">
+      <div style="flex:1; overflow-y:auto; padding: 60px 16px 120px;">
+        <button onclick="closeApp()"
+          style="position:absolute; top:50px; left:16px; background:rgba(255,255,255,0.2); border:none; color:#fff; border-radius:12px; padding:4px 8px; font-size:12px; z-index:100;">Back</button>
+
+        <!-- Privacy Report -->
+        <h2 style="font-size:24px; font-weight:800; margin-bottom:12px;">Privacy Report</h2>
+        <div
+          style="background:rgba(255,255,255,0.85); color:#000; border-radius:20px; padding:20px; display:flex; align-items:center; gap:15px; margin-bottom:30px;">
+          <div
+            style="background:#000; color:#fff; padding:10px; border-radius:10px; display:flex; align-items:center; gap:4px; font-weight:700;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+            </svg>
+            48
+          </div>
+          <div style="font-size:14px; font-weight:500; line-height:1.4;">In the last seven days, Safari has
+            prevented
+            48 trackers from profiling you.</div>
+        </div>
+
+        <!-- Suggestions -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 style="font-size:24px; font-weight:800; margin:0;">Suggestions</h2>
+          <span style="color:#fff; opacity:0.8; font-weight:600;">Show All ></span>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-bottom:30px;">
+          <!-- Levski -->
+          <div
+            style="background:#003a70; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div
+              style="width:100%; height:60px; background:rgba(0,0,0,0.2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:30px;">
+              ⚽</div>
+            <div>
+              <div style="font-size:14px; font-weight:700; margin-bottom:2px;">ПФК Левски Co...</div>
+              <div style="font-size:12px; opacity:0.6;">levski.bg</div>
+              <div style="font-size:11px; opacity:0.4; margin-top:10px;">Last week</div>
+            </div>
+          </div>
+          <!-- FMI -->
+          <div
+            style="background:#00548b; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div
+              style="width:100%; height:60px; background:rgba(255,255,255,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:30px;">
+              📁</div>
+            <div>
+              <div style="font-size:14px; font-weight:700; margin-bottom:2px;">Public file share...</div>
+              <div style="font-size:12px; opacity:0.6;">fmi.uni-sofia.bg</div>
+              <div style="font-size:11px; opacity:0.4; margin-top:10px;">Today</div>
+            </div>
+          </div>
+          <!-- FitGirl -->
+          <div
+            style="background:#2d1f1f; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div
+              style="width:100%; height:60px; background:rgba(255,255,255,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:30px;">
+              🎮</div>
+            <div>
+              <div style="font-size:14px; font-weight:700; margin-bottom:2px;">Football Manage...</div>
+              <div style="font-size:12px; opacity:0.6;">fitgirl-repacks.site</div>
+              <div style="font-size:11px; opacity:0.4; margin-top:10px;">Yesterday</div>
+            </div>
+          </div>
+          <!-- NRA -->
+          <div
+            style="background:#fff; color:#000; border-radius:20px; padding:15px; min-height:150px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div
+              style="width:100%; height:60px; background:#f2f2f7; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#0050aa; font-weight:900; font-size:30px;">
+              ▼</div>
+            <div>
+              <div style="font-size:14px; font-weight:700; margin-bottom:2px;">Портал за еле...</div>
+              <div style="font-size:12px; opacity:0.6;">portal.nra.bg</div>
+              <div style="font-size:11px; opacity:0.4; margin-top:10px;">Last week</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recently Closed -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 style="font-size:24px; font-weight:800; margin:0;">Recently Closed Tabs</h2>
+          <div style="display:flex; gap:10px; opacity:0.8; font-weight:600; font-size:14px;">
+            <span>Clear All</span>
+            <span>Show Less v</span>
+          </div>
+        </div>
+        <div
+          style="background:rgba(255,255,255,0.3); border-radius:30px; padding:12px 20px; font-size:14px; font-weight:600;">
+          Temu | Explore the Latest Clothing, Beau...
+        </div>
+      </div>
+
+      <!-- Safari Footer Search Bar -->
+      <div
+        style="position:absolute; bottom:0; left:0; width:100%; padding: 10px 16px 40px; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); display:flex; align-items:center; gap:12px; z-index:20;">
+        <div
+          style="width:50px; height:50px; background:rgba(255,255,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </div>
+        <div
+          style="flex:1; background:rgba(255,255,255,0.3); border-radius:25px; height:50px; display:flex; align-items:center; padding: 0 16px; gap:10px; color:#fff;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <span style="font-weight:600; opacity:0.7;">Search or enter website</span>
+          <div style="flex:1;"></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" y1="19" x2="12" y2="23" />
+            <line x1="8" y1="23" x2="16" y2="23" />
+          </svg>
+        </div>
+        <div
+          style="width:50px; height:50px; background:rgba(255,255,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="1" />
+            <circle cx="19" cy="12" r="1" />
+            <circle cx="5" cy="12" r="1" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- FACEBOOK OVERLAY -->
+    <div class="app-overlay" id="app-facebook" style="background:#f0f2f5; flex-direction:column; padding-top: 0;">
+      <!-- Header -->
+      <div
+        style="background:#fff; padding: 50px 16px 12px; border-bottom:1px solid #ddd; display:flex; align-items:center; justify-content:space-between;">
+        <button onclick="closeApp()"
+          style="background:#f0f2f5; border:none; border-radius:12px; padding:8px 16px; font-weight:700; color:#050505;">Back</button>
+        <span style="color:#1877f2; font-size:28px; font-weight:900; letter-spacing:-1px;">facebook</span>
+        <div style="display:flex; gap:10px;">
+          <div
+            style="width:36px; height:36px; background:#f0f2f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
+            ➕</div>
+          <div
+            style="width:36px; height:36px; background:#f0f2f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
+            🔍</div>
+          <div
+            style="width:36px; height:36px; background:#f0f2f5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
+            💬</div>
+        </div>
+      </div>
+
+      <div class="overlay-body" style="padding:0; background:#f0f2f5;">
+        <!-- Status Bar -->
+        <div
+          style="background:#fff; padding:12px 16px; display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100"
+            style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+          <div
+            style="flex:1; background:#f0f2f5; border-radius:20px; padding:10px 16px; color:#65676b; font-size:15px;">
+            What's on your mind?</div>
+          <div style="color:#45bd62; font-size:20px;">🖼️</div>
+        </div>
+
+        <!-- Feed -->
+        <div style="display:flex; flex-direction:column; gap:10px; padding-bottom:100px;">
+          <!-- Post 1 -->
+          <div style="background:#fff; padding:12px 0;">
+            <div style="padding:0 16px 12px; display:flex; align-items:center; gap:10px;">
+              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=100"
+                style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+              <div>
+                <div style="font-weight:700; font-size:16px;">Мария Петрова</div>
+                <div style="font-size:13px; color:#65676b;">2 hours ago · 👥</div>
+              </div>
+            </div>
+            <div style="padding:0 16px 12px; font-size:15px; line-height:1.4;">Прекрасен ден в градината днес!
+              Цветята
+              най-накрая разцъфнаха. 🌸✨</div>
+            <img src="https://images.unsplash.com/photo-1558905619-171547446722?w=800"
+              style="width:100%; max-height:400px; object-fit:cover;">
+            <div
+              style="padding:10px 16px; border-bottom:1px solid #f0f2f5; display:flex; justify-content:space-between; color:#65676b; font-size:13px;">
+              <span>❤️👍 42</span>
+              <span>8 comments</span>
+            </div>
+            <div style="display:flex; padding:4px 0;">
+              <button
+                style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">👍
+                Like</button>
+              <button
+                style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">💬
+                Comment</button>
+              <button
+                style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">⤴️
+                Share</button>
+            </div>
+          </div>
+
+          <!-- Post 2 -->
+          <div style="background:#fff; padding:12px 0;">
+            <div style="padding:0 16px 12px; display:flex; align-items:center; gap:10px;">
+              <img src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=100"
+                style="width:44px; height:44px; border-radius:50%; object-fit:cover;">
+              <div>
+                <div style="font-weight:700; font-size:16px;">Георги Иванов</div>
+                <div style="font-size:13px; color:#65676b;">Yesterday at 18:45 · 👥</div>
+              </div>
+            </div>
+            <div style="padding:0 16px 12px; font-size:15px; line-height:1.4;">Малко спомени от последната ни
+              разходка
+              в планината. Беше незабравимо! ⛰️🥾</div>
+            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800"
+              style="width:100%; max-height:400px; object-fit:cover;">
+            <div
+              style="padding:10px 16px; border-bottom:1px solid #f0f2f5; display:flex; justify-content:space-between; color:#65676b; font-size:13px;">
+              <span>❤️ 156</span>
+              <span>24 comments</span>
+            </div>
+            <div style="display:flex; padding:4px 0;">
+              <button
+                style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">👍
+                Like</button>
+              <button
+                style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">💬
+                Comment</button>
+              <button
+                style="flex:1; background:none; border:none; padding:10px; font-weight:600; color:#65676b; display:flex; align-items:center; justify-content:center; gap:6px;">⤴️
+                Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Navigation -->
+      <div
+        style="position:absolute; bottom:0; left:0; width:100%; background:#fff; border-top:1px solid #ddd; padding:10px 16px 35px; display:flex; justify-content:space-around; align-items:center; z-index:20;">
+        <div style="text-align:center; color:#1877f2;">
+          <div style="font-size:24px;">🏠</div>
+          <div style="font-size:10px; font-weight:700;">Home</div>
+        </div>
+        <div style="text-align:center; color:#65676b;">
+          <div style="font-size:24px;">👥</div>
+          <div style="font-size:10px; font-weight:700;">Friends</div>
+        </div>
+        <div style="text-align:center; color:#65676b;">
+          <div style="font-size:24px;">📺</div>
+          <div style="font-size:10px; font-weight:700;">Video</div>
+        </div>
+        <div style="text-align:center; color:#65676b;">
+          <div style="font-size:24px;">🔔</div>
+          <div style="font-size:10px; font-weight:700;">Alerts</div>
+        </div>
+        <div style="text-align:center; color:#65676b;">
+          <div style="font-size:24px;">☰</div>
+          <div style="font-size:10px; font-weight:700;">Menu</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEWS OVERLAY -->
+    <div class="app-overlay" id="app-news">
+      <div class="overlay-header">
+        <button class="back-btn" onclick="closeApp()">‹ Назад</button>
+        <span class="overlay-title">Новини</span>
+      </div>
+      <div class="overlay-body" style="padding:0;">
+        <div class="news-featured">
+          <div class="news-featured-img">🌤️</div>
+          <div class="news-featured-body">
+            <div
+              style="font-size:11px;font-weight:700;color:#ff3b30;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px;">
+              ВРЕМЕТО</div>
+            <div style="font-size:17px;font-weight:700;color:#000;line-height:1.3;">Слънчев ден в цялата страна.
+              Температури до 26°C.</div>
+            <div style="font-size:13px;color:#8e8e93;margin-top:6px;">Днес, 10:30</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:12px;margin:0 16px;overflow:hidden;">
+          <div class="news-item"><span class="news-emoji">🏥</span>
+            <div>
+              <div class="news-tag">Здраве</div>
+              <div class="news-title">Ваксинацията срещу грип започна. Безплатна за пенсионери.</div>
+              <div class="news-time">Днес, 09:15</div>
+            </div>
+          </div>
+          <div class="news-item"><span class="news-emoji">⚽</span>
+            <div>
+              <div class="news-tag">Спорт</div>
+              <div class="news-title">Левски с победа 2:1 в UEFA конференция.</div>
+              <div class="news-time">Вчера, 22:00</div>
+            </div>
+          </div>
+          <div class="news-item" style="border-bottom:none;"><span class="news-emoji">🎭</span>
+            <div>
+              <div class="news-tag">Култура</div>
+              <div class="news-title">Народният театър открива нов сезон с постановка на Вазов.</div>
+              <div class="news-time">Вчера, 18:45</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- HOME INDICATOR -->
+    <div class="home-indicator-area" onclick="closeApp()">
+      <div class="home-indicator"></div>
+    </div>
+
+  </div><!-- /phone-screen -->
+  </div><!-- /phone-frame -->
+
+  <script src="app.js"></script>
 </body>
 
 </html>
