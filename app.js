@@ -218,6 +218,7 @@ function renderPhotos() {
         </div>
         <span style="position:absolute; bottom:4px; right:4px; color:#fff; font-size:11px; font-weight:700; background:rgba(0,0,0,0.4); padding: 1px 4px; border-radius:4px;">${p.video}</span>
       ` : ''}
+      
     </div>
   `).join('');
 }
