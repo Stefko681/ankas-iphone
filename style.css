@@ -1,3 +1,8 @@
+/* Minimal CSS Reset */
+html, body { margin: 0; padding: 0; }
+button { display: inline-flex; cursor: pointer; border: none; background: none; padding: 0; font: inherit; }
+img { max-width: 100%; display: block; }
+
 * {
   font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
   box-sizing: border-box;
@@ -30,6 +35,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* Side buttons */
@@ -65,6 +71,9 @@ body {
   overflow: hidden;
   position: relative;
   box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  transform: translateZ(0);
 }
 
 /* Dynamic Island notch */
@@ -190,7 +199,9 @@ body {
   flex-direction: column;
   padding: 4px 14px 20px;
   overflow-y: auto;
-  background: transparent;
+  background: #f2f2f7;
+  position: relative;
+  z-index: 1;
 }
 
 /* Assistive Access grid — 2 col, large icons */
@@ -384,11 +395,13 @@ body {
   position: absolute;
   inset: 0;
   background: #f2f2f7;
-  border-radius: 46px;
+  border-radius: 44px;
   display: none;
   flex-direction: column;
   z-index: 50;
   overflow: hidden;
+  isolation: isolate;
+  transform: translateZ(0);
 }
 
 .app-overlay.active {
